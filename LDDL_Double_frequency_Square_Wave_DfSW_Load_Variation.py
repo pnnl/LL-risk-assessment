@@ -125,7 +125,7 @@ psspy.chsb(0,1,[-1,-1,-1,1,14,0]) # Voltage and Angle
 psspy.chsb(0,1,[-1,-1,-1,1,16,0]) # flow (P and Q)
 psspy.chsb(0,1,[-1,-1,-1,1,2,0]) # Pelec
 psspy.chsb(0,1,[-1,-1,-1,1,3,0]) # Qelec
- 
+psspy.chsb(0,1,[-1,-1,-1,1,25,0]) # Pload
 
 
 

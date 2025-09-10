@@ -1,4 +1,4 @@
-### Code for emulating square wave load variation behavior by LDDLs, mainly data centers
+### Code for emulating double frequency square wave (DfSW) load variation behavior by LDDLs, mainly data centers
 ### This code is tested using PSS/E version 35.6
 
 ### Importing neccessary libraries
@@ -40,11 +40,21 @@ load_bus_number = 1302
 load_bus_name_ = 'HAllen_NV'
 load_bus_ID = str(1)
 Change_in_power_SW_step_MW = 100 
-Freq_of_SW_load_var_in_Hz = 1 ## in Hz
-TimePeriod_of_SW_load_var_in_s = 1/Freq_of_SW_load_var_in_Hz ## calculating the time period of periodic load variation
-Up_time_load_var_in_s = TimePeriod_of_SW_load_var_in_s/2 ## assuming symmetry in periodic variation
-Down_time_load_var_in_s = TimePeriod_of_SW_load_var_in_s/2 ## assuming symmetry in periodic variation
+
+
+freq_TW_var_in_Hz = 1 ## freq in Hz
+Time_period_TW_var_in_s = 1/ freq_TW_var_in_Hz
+Up_time_load_var_in_s = Time_period_TW_var_in_s/2
+Down_time_load_var_in_s = Time_period_TW_var_in_s/2
+
+num_steps_to_impl_ramp_change = 25
 num_period_of_load_var = 10 ## number of times the the load variation needs to be repeated
+
+
+## 
+num_period_of_load_var = 10 ## number of times the the load variation needs to be repeated
+num_period_within_1_DfSW_period = 5 ## number of cycles within 1 DfSW period
+
 
 print("Enter values (press Enter to keep default):")
 eventStartTime = prompt_with_default("eventStartTime (sec)", eventStartTime, int)
@@ -54,16 +64,18 @@ load_bus_ID = prompt_with_default("load_bus_ID", load_bus_ID, str)
 Change_in_power_SW_step_MW = prompt_with_default(
     "Change_in_power_SW_step_MW", Change_in_power_SW_step_MW, float
 )
-Freq_of_SW_load_var_in_Hz = prompt_with_default(
-    "Freq_of_SW_load_var_in_Hz", Freq_of_SW_load_var_in_Hz, float
+freq_TW_var_in_Hz = prompt_with_default(
+    "freq_TW_var_in_Hz", freq_TW_var_in_Hz, float
 )
+
+
 print("\nFinal values:")
 print(f"{eventStartTime=}")
 print(f"{load_bus_number=}")
 print(f"{load_bus_name_=}")
 print(f"{load_bus_ID=}")
 print(f"{Change_in_power_SW_step_MW=}")
-print(f"{Freq_of_SW_load_var_in_Hz=}")
+print(f"{freq_TW_var_in_Hz=}")
 
  
 ### Input (raw and dyr) and output (out and csv) file names are set here
@@ -73,8 +85,8 @@ OUTPUT_Folder = local_dir
 
 rawFile = PSSE_files_dir + '\\' + '240busWECC_2018_PSS.raw'
 dyrFile = PSSE_files_dir + '\\' + '240busWECC_2018_PSS.dyr' 
-outFile = OUTPUT_Folder + '\\' + 'MiniWECC240_SquareWave_load_Var_'+str(Freq_of_SW_load_var_in_Hz)+'_Hz_'+str(load_bus_number)+'_'+str(load_bus_name_)+'.out' 
-csvFile = OUTPUT_Folder + '\\' +  'MiniWECC240_SquareWave_load_Var_'+str(Freq_of_SW_load_var_in_Hz)+'_Hz_'+str(load_bus_number)+'_'+str(load_bus_name_)+'.csv' 
+outFile = OUTPUT_Folder + '\\' + 'MiniWECC240_Triangular_load_Var_'+str(load_bus_number)+'_'+str(load_bus_name_)+'.out' 
+csvFile = OUTPUT_Folder + '\\' +  'MiniWECC240_Triangular_load_Var_'+str(load_bus_number)+'_'+str(load_bus_name_)+'.csv' 
 
 
 ### Reading raw file
@@ -112,6 +124,7 @@ psspy.chsb(0,1,[-1,-1,-1,1,25,0]) # Pload
 
 
 
+
 ## Setting simulation parameters for the dynamic simulation
 start_time = timeit.default_timer()
 dyn_max_iter = 99 
@@ -139,29 +152,44 @@ T_till_prev_LC = eventStartTime
 ## Identifies the nominal load in "load_bus_number" and saves as "Base_PIload_value"
 [ierr, Load_bus_Nums_p] = psspy.aloadint(sid = -1, flag = 1, string = 'NUMBER')
 [ierr, S_nominal_p] = psspy.aloadcplx(sid = -1, flag = 1, string = 'ILNOM') ## ILACT is the actual complex const I power
+
 Load_bus_index_in_load_arrays = Load_bus_Nums_p[0].index(load_bus_number)
 Base_PIload_value = S_nominal_p[0][Load_bus_index_in_load_arrays].real
 
 
 
-### Starting the square wave load variation
+
+
+## Starting Triangular load variation
+
+delta_ramp_change_time = Delta_t_simulation*6
+single_delta_ramp_step_time_up = Up_time_load_var_in_s/num_steps_to_impl_ramp_change
+single_delta_ramp_step_time_down = Down_time_load_var_in_s/num_steps_to_impl_ramp_change
 
 n_dT_OChange = 1
-for load_var_cycles in range(0, num_period_of_load_var): # the load variation is repeated "num_period_of_load_var" times
+for load_var_cycles in range(0, num_period_of_load_var): # pulsing load changes
     
-    psspy.load_chng_6(load_bus_number, load_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ _f ,_f, Base_PIload_value + Change_in_power_SW_step_MW , 0 , _f,_f,_f,_f],"") ## for the first half of this time period load value is increased to "Base_PIload_value + Change_in_power_SW_step_MW" 
+    for delta_ramp_change_period_num in range(1,num_steps_to_impl_ramp_change+1):
+        
+        
+        
+        psspy.load_chng_6(load_bus_number, load_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ _f ,_f, Base_PIload_value + Change_in_power_SW_step_MW*(delta_ramp_change_period_num/num_steps_to_impl_ramp_change) , 0 , _f,_f,_f,_f],"") ## real number array 
+        
+        t_next_pause = T_till_prev_LC + (single_delta_ramp_step_time_up * (n_dT_OChange)) ### Only 5 time steps are used for loading OC change!! - As smooth as it gets
+        psspy.run(0, t_next_pause, n_prt, n_out_channel, n_CRT_PLT)
+        T_till_prev_LC = t_next_pause
     
-    t_next_pause = T_till_prev_LC + (Up_time_load_var_in_s * (n_dT_OChange)) ### Increased load value will be present for "Up_time_load_var_in_s"
-    psspy.run(0, t_next_pause, n_prt, n_out_channel, n_CRT_PLT)
-    T_till_prev_LC = t_next_pause
     
-    
-    psspy.load_chng_6(load_bus_number, load_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ _f ,_f, Base_PIload_value , 0 , _f,_f,_f,_f],"") ## for the second half of this load variation period, the value of the load is decreased to "Base_PIload_value"
-    
-    t_next_pause = T_till_prev_LC + (Down_time_load_var_in_s * (n_dT_OChange))  ### Reduced load value will be present for "Down_time_load_var_in_s"
-    psspy.run(0, t_next_pause, n_prt, n_out_channel, n_CRT_PLT)
-    T_till_prev_LC = t_next_pause
-    
+    for delta_ramp_change_period_num in range(1,num_steps_to_impl_ramp_change+1):
+        
+        
+        
+        psspy.load_chng_6(load_bus_number, load_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ _f ,_f, Base_PIload_value + Change_in_power_SW_step_MW -  Change_in_power_SW_step_MW*(delta_ramp_change_period_num/num_steps_to_impl_ramp_change) , 0 , _f,_f,_f,_f],"") ## real number array 
+        
+        t_next_pause = T_till_prev_LC + (single_delta_ramp_step_time_down * (n_dT_OChange)) ### Only 5 time steps are used for loading OC change!! - As smooth as it gets
+        psspy.run(0, t_next_pause, n_prt, n_out_channel, n_CRT_PLT)
+        T_till_prev_LC = t_next_pause
+        
 
 
 
