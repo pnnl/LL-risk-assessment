@@ -9,3 +9,6 @@ This section provides scripts designed to emulate the behavior of data center lo
 3. Triangular load variation
 
 The parametrization of each of these load behavior characteristics are provided below.
+1. Square wave load variation - Change in power in MW, Frequency of Load variation
+2. Double frequency square wave (DfSW) load variation - Change in power in MW, Faster Frequency of Load variation, Slower Frequency of Load variation
+3. Triangular load variation - Change in power in MW, Frequency of Load variation
