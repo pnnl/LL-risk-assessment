@@ -12,3 +12,4 @@ The structure of suite of scripts are detailed below.
 ```
 
 A Command Line Interface based input is presented to the user.
+![Options to User](images/SS_CLI_menu_LDDL_tool.png)
