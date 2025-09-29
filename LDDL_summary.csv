@@ -1,0 +1,4 @@
+,Category,Instances >20 MW,Instances in Source Zone,Instances Outside Source Zone,Max Osc. in Source Zone (MW),Max Osc. outside Source Zone (MW),Max Loc. in Source Zone,Max Loc. outside Source Zone
+0,Generator Injections,0,0,0,12.751007080078125,9.070396423339844,H ALLEN,CMAIN GM
+1,Tie-line Flows,14,6,8,44.505859375,34.1339111328125,NAVAJO --- H ALLEN,NAVAJO --- MOENKOPI
+2,Load Injections,1,1,0,99.98660385608673,1.422119140625,H ALLEN,COLOEAST
