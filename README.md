@@ -11,5 +11,5 @@ The structure of suite of scripts are detailed below.
 └─ README.md
 ```
 
-A Command Line Interface based input is presented to the user.
+When the main file "main_smaart.py" is run, the user is presesnted with options as shown in figure below.
 ![Options to User](images/SS_CLI_menu_LDDL_tool.png)
