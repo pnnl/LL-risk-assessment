@@ -18,4 +18,4 @@ When the main file "main_smaart.py" is run, the user is presented with options a
 ![Options to User](images/SS_CLI_menu_LDDL_tool.png)
 
 
-The options are divided into four sections. In the first section the user has the flexibility to select the size and location of the LDDL. Second section provides options to choose the type of load variation - monoperiodic, biperiodic, or triangular - along with their corresponding parameters. Note that a default option is always avilable in case the user choose not to change anything. 
+The options are divided into four sections. In the first section the user has the flexibility to select the size and location of the LDDL. Second section provides options to choose the type of load variation - monoperiodic, biperiodic, or triangular - along with their corresponding parameters. Note that a default option is always avilable in case the user choose not to change anything. In the third section, the user can provide a fiel describing Latitutude-Longitude data of the network used for visualization (option 3b).
