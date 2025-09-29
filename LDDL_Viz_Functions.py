@@ -354,35 +354,3 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     
     summary_df.to_csv('LDDL_summary.csv')
     
-    # plt.show()
-    
-    
-    
-    
-    
-    
-    
-
-    
-# bus_info = Read_System_Bus_Lat_Long(BUS_FILE)
-# DATA_FILE = r'LDDL_Monoperiodic_Eg1.csv'
-# df_LDDL = pd.read_csv(DATA_FILE)                 # or read_excel
-
-# [osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses] = Process_LDDL_out_for_Viz(df_LDDL)
-
-# MW_THRESHOLD = 20
-# CMAX         = 200
-
-# LOCATIONS = [
-#     "1004_SanJuan_NM", "1101_Coronado_AZ", "1302_HAllen_NV",
-#     "1401_PaloVerde_AZ", "2600_Adelanto_CA", "4008_Malin_OR",
-#     "4010_Celilo_OR", "4101_Coulee_WA", "4102_Hanford_WA",
-#     "5001_Canada_BC",
-# ]
-# location = LOCATIONS[2]                                  # 1302_HAllen_NV
-
-
-# LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses)
-
-
-# Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses )
