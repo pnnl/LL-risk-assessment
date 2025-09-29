@@ -15,7 +15,7 @@ The structure of suite of scripts are detailed below.
 ```
 
 When the main file "main_smaart.py" is run, the user is presented with options as shown in figure below.
-![Options to User](images/SS_CLI_menu_LDDL_tool.png)
+![Options to User](images/SS_CLI_menu_LDDL_tool.png).
 
 
 <p align="justify"> The options are divided into four sections. In the first section the user has the flexibility to select the size and location of the LDDL. Second section provides options to choose the type of load variation - monoperiodic, biperiodic, or triangular - along with their corresponding parameters. Note that a default option is always avilable in case the user choose not to change anything. In the third section, the user can provide a fiel describing Latitude-Longitude data of the network used for visualization (option 3b). The peak-peak MW threshold for risk evaluation can be modified using option 3c. Finally, section 4 provides option to do analysis for a new test system (default is 240 bus WECC system) by selection appropriate PSS/E raw and dyr files using options 4a and 4b respectively. The tool provides two outputs - the visualization figure showing the critical transmission lines and an output csv file containing the LDDL load variation data generated using PSS/E. The location for saving the files can be modified by updating option 4c.</p>
