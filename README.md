@@ -9,8 +9,8 @@ The structure of suite of scripts are detailed below.
 ├─ main_smaart.py              # Main code 
 ├─ scenario_menu.py            # Setting CLI options
 ├─ LDDL_Different_Load_Variations.py               # Different periodic load variation patterns
-├─ LDDL_Viz_Functions.py     # Oscillation amplification analysis and visualizations
-├─ requirements.txt     # PSS/E, Python and Fodler locations requirements
+├─ LDDL_Viz_Functions.py       # Oscillation amplification analysis and visualizations
+├─ requirements.txt            # PSS/E, Python and Folder locations requirements
 └─ README.md
 ```
 
