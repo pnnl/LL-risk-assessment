@@ -7,7 +7,7 @@ To cite this work, please use "Biswas, Shuchismita, Antos C. Varghese, Kaustav C
 The structure of suite of scripts are detailed below.
 ```text
 ├─ main_smaart.py              # Main code 
-├─ scenario_menu.py            # Setting CLI options
+├─ scenario_menu.py            # Setting command line interface options
 ├─ LDDL_Different_Load_Variations.py               # Different periodic load variation patterns
 ├─ LDDL_Viz_Functions.py       # Oscillation amplification analysis and visualizations
 ├─ requirements.txt            # PSS/E, Python and Folder locations requirements
