@@ -24,7 +24,7 @@ os.environ["MPLBACKEND"] = "QtAgg"
 
 
 # DATA_FILE = f"MiniWECC240_SquareWave_load_Var_{location}.csv"
-BUS_FILE  = "MiniWECC_240bus_Buses_Areas_Zones.csv"       # use .xlsx if you want
+# BUS_FILE  = "MiniWECC_240bus_Buses_Areas_Zones.csv"       # use .xlsx if you want
 
 
 
@@ -111,7 +111,7 @@ def Process_LDDL_out_for_Viz(df):
     return(osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses)
 
 
-def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info):
+def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info, Output_Folder):
     # ───────────────────────────────────────────────────────────────
     # 5)  Figure & map
     # ───────────────────────────────────────────────────────────────
@@ -239,14 +239,15 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen
     # colour-bar
     sm = cm.ScalarMappable(norm=norm, cmap=cmap)
     cbar = plt.colorbar(sm, ax=ax, pad=0.02, aspect=25)
-    cbar.set_label("Oscillation Magnitude (ΔMW)")
+    cbar.set_label("Oscillation Magnitude (ΔMW)", fontsize=12, weight="bold")
+    cbar.ax.tick_params(labelsize=10)
     
     plt.title(f"Oscillation >{MW_THRESHOLD} MW for {location.replace('_', ' ')}",
         fontsize=14, weight="bold")
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     # # save instead of show
     plt.savefig(
-        "LDDL_analysis_map.png",
+        "LDDL_risk_eval_viz_"+str(perturb_bus)+".png",
         dpi=300,                # resolution
         bbox_inches="tight",    # trim whitespace
         pad_inches=0.2          # add a bit of breathing room
@@ -255,7 +256,7 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen
     
     
 
-def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info ):
+def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info, Output_Folder ):
     perturb_bus = int(re.match(r"^(\d+)", location).group(1))
     # ───────────────────────────────────────────────────────────────
     # 10)  Summary table (unchanged logic, uses .iloc[0])
@@ -352,5 +353,5 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
           f"for {location.replace('_',' ')}\n")
     print(summary_df.to_string(index=False))
     
-    summary_df.to_csv('LDDL_summary.csv')
+    summary_df.to_csv('LDDL_summary'+str(perturb_bus)+'.csv')
     

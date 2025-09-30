@@ -8,10 +8,10 @@ import psspy
 
 
 
-def LDDL_MonoPeriodic_Load_Var(cfg):
+def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
     
-    print(cfg.system.PSSE_LOCATION)
     
+    Output_File_Name_Str = str(LDDL_bus)
    
     local_dir = os.getcwd() ## finding current working directory
     sys.path.append(local_dir)
@@ -48,13 +48,13 @@ def LDDL_MonoPeriodic_Load_Var(cfg):
     
 
     ## Setting the PSSS/E input raw, dyr files
-    PSSE_files_dir = local_dir
-    OUTPUT_Folder = local_dir
+    PSSE_files_dir = cfg.viz.case_file_location
+    OUTPUT_Folder = cfg.files.output_file_location
     rawFile = PSSE_files_dir + '\\' + str(cfg.files.raw_file)
     dyrFile = PSSE_files_dir + '\\' + str(cfg.files.dyr_file)
     ## Setting the PSS/E output out and csv files based on cfg input
-    outFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.out' 
-    csvFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.csv' 
+    outFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.out' 
+    csvFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.csv' 
     
     
     ### Reading raw file
@@ -166,9 +166,10 @@ def LDDL_MonoPeriodic_Load_Var(cfg):
 
 
 
-def LDDL_BiPeriodic_Load_Var(cfg):
+def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
     
-    print(cfg.system.PSSE_LOCATION)
+    
+    Output_File_Name_Str = str(LDDL_bus)
     
     
     local_dir = os.getcwd() ## finding current working directory
@@ -210,14 +211,15 @@ def LDDL_BiPeriodic_Load_Var(cfg):
     Rem_time = (Tot_sim_time - LDDL_var_ST - (Num_total_LDDL_cycles*TP_LDDL_var_prime) ) ## time left in simulation
     
 
+
     ## Setting the PSSS/E input raw, dyr files
-    PSSE_files_dir = local_dir
-    OUTPUT_Folder = local_dir
+    PSSE_files_dir = cfg.viz.case_file_location
+    OUTPUT_Folder = cfg.files.output_file_location
     rawFile = PSSE_files_dir + '\\' + str(cfg.files.raw_file)
     dyrFile = PSSE_files_dir + '\\' + str(cfg.files.dyr_file)
     ## Setting the PSS/E output out and csv files based on cfg input
-    outFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.out' 
-    csvFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.csv' 
+    outFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.out' 
+    csvFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.csv' 
     
     
     ### Reading raw file
@@ -336,10 +338,10 @@ def LDDL_BiPeriodic_Load_Var(cfg):
     return(df)    
 
 
-def LDDL_Tria_Load_Var(cfg): ## Function to Emulate Triangular Load Variation
+def LDDL_Tria_Load_Var(cfg, LDDL_bus): ## Function to Emulate Triangular Load Variation
     
-    print(cfg.system.PSSE_LOCATION)
     
+    Output_File_Name_Str = str(LDDL_bus)
     
     local_dir = os.getcwd() ## finding current working directory
     sys.path.append(local_dir)
@@ -375,14 +377,15 @@ def LDDL_Tria_Load_Var(cfg): ## Function to Emulate Triangular Load Variation
     Rem_time = (Tot_sim_time - LDDL_var_ST - (Num_total_LDDL_cycles*TP_LDDL_var) ) ## time left in simulation
     
 
+
     ## Setting the PSSS/E input raw, dyr files
-    PSSE_files_dir = local_dir
-    OUTPUT_Folder = local_dir
+    PSSE_files_dir = cfg.viz.case_file_location
+    OUTPUT_Folder = cfg.files.output_file_location
     rawFile = PSSE_files_dir + '\\' + str(cfg.files.raw_file)
     dyrFile = PSSE_files_dir + '\\' + str(cfg.files.dyr_file)
     ## Setting the PSS/E output out and csv files based on cfg input
-    outFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.out' 
-    csvFile = OUTPUT_Folder + '\\' + str(cfg.files.output_file)+'.csv' 
+    outFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.out' 
+    csvFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.csv' 
     
     
     ### Reading raw file
