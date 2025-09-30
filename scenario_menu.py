@@ -3,6 +3,7 @@ from typing import Callable, Optional, Dict, Any, List
 from pathlib import Path
 import json
 import sys
+import numpy as np
 
 # -------------------------
 # Utilities
@@ -158,9 +159,14 @@ def configure_option_2c(cfg: ScenarioConfig):
             lambda x: x > 0 or (_ for _ in ()).throw(ValueError("> 0 required"))
         ))
 
-    lm.load_bus_numbers = nums
+    ### update here
+    n = 1
+    lm.load_bus_numbers = np.asarray([nums[0]]) # lm.load_bus_numbers = nums
     lm.load_bus_ids = ["1"] * n   # restored behavior: all IDs = "1"
 
+    
+    # lm.load_bus_numbers = nums # lm.load_bus_numbers = nums
+    # lm.load_bus_ids = ["1"] * n   # restored behavior: all IDs = "1"
 
 # -------------------------
 # NEW Section 3: Load variation characteristics (old Section 2)
@@ -319,20 +325,3 @@ def build_actions() -> Dict[str, Callable[[ScenarioConfig], None]]:
         "4b": configure_option_4b,
     }
 
-# # Example main loop
-# if __name__ == "__main__":
-#     cfg = ScenarioConfig()
-#     actions = build_actions()
-#     while True:
-#         choice = show_menu().upper()
-#         if choice == "Q":
-#             print("Thank you for using Large Load Risk Assessment Tool!")
-#             break
-#         if choice == "R":
-#             run_review_and_execute(cfg)
-#             continue
-#         fn = actions.get(choice)
-#         if fn:
-#             fn(cfg)
-#         else:
-#             print("Invalid option. Try again.")

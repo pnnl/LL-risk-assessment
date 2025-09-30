@@ -27,14 +27,9 @@ os.environ["MPLBACKEND"] = "QtAgg"
 # BUS_FILE  = "MiniWECC_240bus_Buses_Areas_Zones.csv"       # use .xlsx if you want
 
 
-
-
-    
-    
-
-def Read_System_Bus_Lat_Long(BUS_FILE):
-    CWD = os.getcwd() ## current working directory
-    bus_info = pd.read_csv(CWD + '/'+ BUS_FILE)            # or read_excel
+def Read_System_Bus_Lat_Long(BUS_FILE, cfg):
+    Folder = cfg.viz.case_file_location ## 
+    bus_info = pd.read_csv(Folder + '/'+ BUS_FILE)            # or read_excel
     bus_info = bus_info.rename(
         columns=lambda c: (
             c.strip()           # remove leading/trailing blanks
@@ -61,7 +56,7 @@ def Read_System_Bus_Lat_Long(BUS_FILE):
 # 3)  Read oscillation data & tidy headers
 # ───────────────────────────────────────────────────────────────
 
-def Process_LDDL_out_for_Viz(df):
+def Process_LDDL_out_for_Viz(df, cfg):
     df.columns = df.columns.str.strip()         # trim trailing blanks
     
     time         = df.iloc[:, 0].to_numpy()
@@ -82,9 +77,9 @@ def Process_LDDL_out_for_Viz(df):
     vals_gen   = 100 * signal_vals[:, is_gen]
     vals_load  = 100 * signal_vals[:, is_load]
     
-    osc_line = vals_line[time > 2].max(0) - vals_line[time > 2].min(0)
-    osc_gen  = vals_gen [time > 2].max(0) - vals_gen [time > 2].min(0)
-    osc_load = vals_load[time > 2].max(0) - vals_load[time > 2].min(0)
+    osc_line = vals_line[time > cfg.load_variation.start_time_s].max(0) - vals_line[time > 2].min(0)
+    osc_gen  = vals_gen [time > cfg.load_variation.start_time_s].max(0) - vals_gen [time > 2].min(0)
+    osc_load = vals_load[time > cfg.load_variation.start_time_s].max(0) - vals_load[time > 2].min(0)
     
     names_line = signal_names[is_line]
     names_gen  = signal_names[is_gen]
@@ -267,7 +262,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     
     summary = {
         "Category": ["Generator Injections", "Tie-line Flows", "Load Injections"],
-        "Instances >MW Threshold": [0, 0, 0],
+        "Instances >20 MW": [0, 0, 0],
         "Instances in Source Zone": [0, 0, 0],
         "Instances Outside Source Zone": [0, 0, 0],
         "Max Osc. in Source Zone (MW)": [0., 0., 0.],
@@ -279,7 +274,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     # >>> generator counts / max
     zone_gen = bus_info.set_index("BusNumber").loc[gen_buses, "ZoneNum"].to_numpy()
     gt = osc_gen > MW_THRESHOLD
-    summary["Instances >MW Threshold"][0]              = int(gt.sum())
+    summary["Instances >20 MW"][0]              = int(gt.sum())
     summary["Instances in Source Zone"][0]      = int((gt & (zone_gen == source_zone)).sum())
     summary["Instances Outside Source Zone"][0] = int((gt & (zone_gen != source_zone)).sum())
     
@@ -319,7 +314,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
             if mag > max_out_mag:
                 max_out_mag, max_out_name = mag, name
     
-    summary["Instances >MW Threshold"][1]              = cnt_in + cnt_out
+    summary["Instances >20 MW"][1]              = cnt_in + cnt_out
     summary["Instances in Source Zone"][1]      = cnt_in
     summary["Instances Outside Source Zone"][1] = cnt_out
     summary["Max Osc. in Source Zone (MW)"][1]  = max_in_mag
@@ -330,7 +325,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     # >>> loads
     zone_load = bus_info.set_index("BusNumber").loc[load_buses, "ZoneNum"].to_numpy()
     gt = osc_load > MW_THRESHOLD
-    summary["Instances >MW Threshold"][2] = int(gt.sum())
+    summary["Instances >20 MW"][2] = int(gt.sum())
     summary["Instances in Source Zone"][2] = int((gt & (zone_load == source_zone)).sum())
     summary["Instances Outside Source Zone"][2] = int((gt & (zone_load != source_zone)).sum())
     
@@ -355,4 +350,3 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     
     summary_df.to_csv('LDDL_summary'+str(perturb_bus)+'.csv')
     
-
