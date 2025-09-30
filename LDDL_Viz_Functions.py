@@ -267,7 +267,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     
     summary = {
         "Category": ["Generator Injections", "Tie-line Flows", "Load Injections"],
-        "Instances >20 MW": [0, 0, 0],
+        "Instances >MW Threshold": [0, 0, 0],
         "Instances in Source Zone": [0, 0, 0],
         "Instances Outside Source Zone": [0, 0, 0],
         "Max Osc. in Source Zone (MW)": [0., 0., 0.],
@@ -279,7 +279,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     # >>> generator counts / max
     zone_gen = bus_info.set_index("BusNumber").loc[gen_buses, "ZoneNum"].to_numpy()
     gt = osc_gen > MW_THRESHOLD
-    summary["Instances >20 MW"][0]              = int(gt.sum())
+    summary["Instances >MW Threshold"][0]              = int(gt.sum())
     summary["Instances in Source Zone"][0]      = int((gt & (zone_gen == source_zone)).sum())
     summary["Instances Outside Source Zone"][0] = int((gt & (zone_gen != source_zone)).sum())
     
@@ -319,7 +319,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
             if mag > max_out_mag:
                 max_out_mag, max_out_name = mag, name
     
-    summary["Instances >20 MW"][1]              = cnt_in + cnt_out
+    summary["Instances >MW Threshold"][1]              = cnt_in + cnt_out
     summary["Instances in Source Zone"][1]      = cnt_in
     summary["Instances Outside Source Zone"][1] = cnt_out
     summary["Max Osc. in Source Zone (MW)"][1]  = max_in_mag
@@ -330,7 +330,7 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     # >>> loads
     zone_load = bus_info.set_index("BusNumber").loc[load_buses, "ZoneNum"].to_numpy()
     gt = osc_load > MW_THRESHOLD
-    summary["Instances >20 MW"][2] = int(gt.sum())
+    summary["Instances >MW Threshold"][2] = int(gt.sum())
     summary["Instances in Source Zone"][2] = int((gt & (zone_load == source_zone)).sum())
     summary["Instances Outside Source Zone"][2] = int((gt & (zone_load != source_zone)).sum())
     
@@ -355,3 +355,4 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
     
     summary_df.to_csv('LDDL_summary'+str(perturb_bus)+'.csv')
     
+
