@@ -1,6 +1,8 @@
 # LL-risk-assessment
 A suite of scripts that helps evaluate and visualize the grid reliability risk due to oscillations introduced by large dynamic digital loads (LDDLs) at the planning stage.
 
+With this suite, users can run PSS/E simulations to identify high-risk large load interconnection points, where forced oscillations are likely to be amplified. Risk is expressed as a function of oscillation shape (monoperiodic square wave, biperiodic square wave, triangular), frequency, and source location. The script also helps users identify locations in a network where LL-induced oscillations may manifest as power swings above a specified threshold. The WECC 240-bus model is used as an illustrative example, but users may specify any PSS/E cases. 
+
 To cite this work, please use "Biswas, Shuchismita, Antos C. Varghese, Kaustav Chatterjee, Sameer Nekkalapu, Brett Ross, and Jim Follum. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." Authorea Preprints (2025)."https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943
 
 ## Introduction
@@ -20,4 +22,10 @@ Upon running the main file "main_LL_risk_assessment.py", the user is presented w
 </p>.
 
 
-<p align="justify"> The menu has four sections. First section provides option to change the locations of input and output files, as well as options to provide different PSS/E raw and dyr files than the default 240 bus WECC system. In the second section the user has the flexibility to select the size and location of the LDDL. Third section provides options to choose the type of load variation - monoperiodic, biperiodic, or triangular - along with their corresponding parameters. Note that a default option is always avilable in case the user choose not to change anything. In the fourth section, user can provide the latitude-longitude information for visualization as well as vary the peak-peak threshold in MW for risk assessment. The tool provides three outputs - a summary of the critical transmission lines impacted due to LDDL variation as an output csv file, a visualization of the same, and another output csv that has the LDDL load variation data generated using PSS/E.</p>
+<p align="justify"> The menu has four sections. 
+<p align="justify">  (1) The first section allows users to choose the location of case files, and specify case file names.
+<p align="justify">  (2) The second section allows users to specify network locations where oscillations are to be injected from and other LDDL parameters. 
+<p align="justify"> (3) The third section allows users to specify oscillation parameters.
+<p align="justify">  (4) The fourth section allows users to specify latitude-longitude information of network parameters for effective visualizations. Users can also select a power swing MW threshold. The script will help identify network elements where the oscillation amplitude crosses the specified threshold.
+
+  Three outputs are provided - (a) a csv with PSS/E dynamic simulation results, (b) a plot visualizing where oscillation amplitudes are above the specified threshold, and (c) a csv summarizing observed instances of high-amplitude oscillations across the network.
