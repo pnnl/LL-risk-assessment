@@ -1,32 +1,18 @@
-from __future__ import annotations
-import re
 import numpy as np
 import pandas as pd
-import matplotlib
-# matplotlib.use("TkAgg")                      # always open a GUI window
-matplotlib.use("QtAgg")
 import matplotlib.pyplot as plt
-from matplotlib import cm, colors            # cm & colors both needed
+from matplotlib import cm, colors
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
+import re
 import matplotlib as mpl
-import os
-
+import os 
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
-
-# os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
-os.environ["MPLBACKEND"] = "QtAgg" 
 # ───────────────────────────────────────────────────────────────
 # 1)  Location & file names
 # ───────────────────────────────────────────────────────────────
-
-
-# DATA_FILE = f"MiniWECC240_SquareWave_load_Var_{location}.csv"
-# BUS_FILE  = "MiniWECC_240bus_Buses_Areas_Zones.csv"       # use .xlsx if you want
-
-
 def Read_System_Bus_Lat_Long(BUS_FILE, cfg):
     Folder = cfg.viz.case_file_location ## 
     bus_info = pd.read_csv(Folder + '/'+ BUS_FILE)            # or read_excel
@@ -37,7 +23,6 @@ def Read_System_Bus_Lat_Long(BUS_FILE, cfg):
              .replace(" ", "")  # drop single space
         )
     )
-    # Expect headers BusNumber, BusName, ZoneNum, Latitude, Longitude, … now
     def _clean_numeric(col: pd.Series, negate=False) -> pd.Series:
         ser = (
             col.astype(str)
@@ -48,19 +33,17 @@ def Read_System_Bus_Lat_Long(BUS_FILE, cfg):
     
     bus_info["Lat"] = _clean_numeric(bus_info.iloc[:, 7]) ## cleaned Lat saved in 10th col
     bus_info["Lon"] = _clean_numeric(bus_info.iloc[:, 8], True) ## cleaned Longitude saved in 11th col
-    
     return(bus_info)
 
 
 # ───────────────────────────────────────────────────────────────
-# 3)  Read oscillation data & tidy headers
+# 3)  Read system data
 # ───────────────────────────────────────────────────────────────
 
 def Process_LDDL_out_for_Viz(df, cfg):
-    df.columns = df.columns.str.strip()         # trim trailing blanks
-    
+    df.columns = df.columns.str.strip()         
     time         = df.iloc[:, 0].to_numpy()
-    signal_names = df.columns[1:]               # skip time
+    signal_names = df.columns[1:]               
     signal_vals  = df.iloc[:, 1:].to_numpy()
     
     
@@ -110,8 +93,6 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen
     # ───────────────────────────────────────────────────────────────
     # 5)  Figure & map
     # ───────────────────────────────────────────────────────────────
-    
-    
     cmap = plt.get_cmap("jet", 64)   # modern, no deprecation
     norm = colors.Normalize(vmin=MW_THRESHOLD, vmax=CMAX)
     
@@ -129,7 +110,7 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen
     
     ax = plt.axes(projection=ccrs.PlateCarree())
     # ax.set_extent([-122, -107, 30, 52], crs=ccrs.PlateCarree())
-    ax.set_extent([-125, -106.7, 29.7, 54], crs=ccrs.PlateCarree())
+    #ax.set_extent([-125, -106.7, 29.7, 54], crs=ccrs.PlateCarree())
     
     
     ax.add_feature(cfeature.LAND.with_scale("50m"),   facecolor="lightgray") ## 110m for faster, 10m for high quality
@@ -139,9 +120,8 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen
     
     
     plt.tight_layout()
-    plt.show() # plt.show(block=True)
-    # fig.savefig("map.png", dpi=300, bbox_inches="tight")
-    
+    plt.show() 
+
     
     # grid with lat/lon labels
     gl = ax.gridlines(draw_labels=True, linewidth=0.3, color="gray",
@@ -348,5 +328,5 @@ def Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_l
           f"for {location.replace('_',' ')}\n")
     print(summary_df.to_string(index=False))
     
-    summary_df.to_csv('LDDL_summary'+str(perturb_bus)+'.csv')
+    summary_df.to_csv('LDDL_summary_'+str(perturb_bus)+'.csv')
     

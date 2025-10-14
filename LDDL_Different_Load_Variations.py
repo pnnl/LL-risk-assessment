@@ -1,15 +1,17 @@
-### Importing neccessary libraries
+## File containing functions for three types of variations for LDDLs - monoperiodic, biperiodic and triangular
 import os, sys
 import timeit
 import numpy as np
-import psse35
-import psspy
-
-
 
 
 def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
     
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSPY311")
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN")
+    os.environ['PATH'] += ';' + r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"
+
+    import psse35
+    import psspy
     
     Output_File_Name_Str = str(LDDL_bus)
    
@@ -26,18 +28,14 @@ def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
     ## Unpacking simulation parameters from cfg
     Load_model_type = cfg.load_model.model_type
     LDDL_var_ampli = cfg.load_model.total_load_MW
-    
     LDDL_bus_numbers = cfg.load_model.load_bus_numbers
     LDDL_bus_number = LDDL_bus_numbers[0]
     LDDL_bus_IDs =cfg.load_model.load_bus_ids
     LDDL_bus_ID = LDDL_bus_IDs[0]
-    
     CWD = cfg.system.cwd
-    
     Freq_LDDL_var = cfg.load_variation.freq_primary_hz ## Frequency of square wave variation of LDDL
     LDDL_var_ST = cfg.load_variation.start_time_s ## start time of LDDL load variation in simulation
     Tot_sim_time = cfg.load_variation.sim_run_time_s
-    
     ## Calculating other simulation variables
     TP_LDDL_var = 1/Freq_LDDL_var ## time period of individual cycles of square wave variation
     Up_time_in_1_TP = TP_LDDL_var/2 ## symmetric sw variation
@@ -55,7 +53,6 @@ def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
     ## Setting the PSS/E output out and csv files based on cfg input
     outFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.out' 
     csvFile = OUTPUT_Folder + '\\' + 'LDDL_'+ str(Output_File_Name_Str)+'.csv' 
-    
     
     ### Reading raw file
     psspy.readrawversion(1, '35', rawFile) 
@@ -89,7 +86,7 @@ def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
     psspy.chsb(0,1,[-1,-1,-1,1,3,0]) # Qelec
     psspy.chsb(0,1,[-1,-1,-1,1,25,0]) # Pload
     
-
+    
     ## Setting PSS/E simulation parameters for the dynamic simulation
     start_time = timeit.default_timer()
     dyn_max_iter = 99 
@@ -121,10 +118,8 @@ def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
         None  # default if not found
     )
 
-
     Load_bus_index_in_load_arrays = TS_Load_bus_Nums[0].index(LDDL_bus_number) ## Identifying the index of LDDL_bus_number  among PSSE load bus num list
     Base_PIload_value = S_nominal_p[0][Load_bus_index_in_load_arrays].real ## Calculating the basecase active power load value for LDDL_bus_number
-    
     
     
     ### Starting the square wave load variation and repeating for Num_total_LDDL_cycles
@@ -157,20 +152,20 @@ def LDDL_MonoPeriodic_Load_Var(cfg, LDDL_bus):
         csv_dict[ch_id[chn_idx]] = ch_data[chn_idx] ### ch_id added as the keys (headings) and ch_data is added as the values (measurements)
     df = pd.DataFrame(csv_dict)
     df.to_csv(csvFile, index=False)
-    
-    # print('\n')
-    # print(idx)
-    # print('\n')
-    
     return(df)
 
 
 
 def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
     
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSPY311")
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN")
+    os.environ['PATH'] += ';' + r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"
+
+    import psse35
+    import psspy
     
     Output_File_Name_Str = str(LDDL_bus)
-    
     
     local_dir = os.getcwd() ## finding current working directory
     sys.path.append(local_dir)
@@ -190,9 +185,7 @@ def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
     LDDL_bus_number = LDDL_bus_numbers[0]
     LDDL_bus_IDs =cfg.load_model.load_bus_ids
     LDDL_bus_ID = LDDL_bus_IDs[0]
-    
     CWD = cfg.system.cwd
-    
     Freq_LDDL_var_prime = cfg.load_variation.freq_primary_hz ## Frequency of square wave variation of LDDL
     Freq_LDDL_var_secondary = cfg.load_variation.freq_secondary_hz
     LDDL_var_ST = cfg.load_variation.start_time_s ## start time of LDDL load variation in simulation
@@ -202,12 +195,11 @@ def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
     TP_LDDL_var_prime = 1/Freq_LDDL_var_prime ## time period of individual cycles of bi periodic 
     Up_time_in_1_TP_prime = TP_LDDL_var_prime/2 ## symmetric 
     Down_time_in_1_TP_prime = TP_LDDL_var_prime/2 ## symmetric 
-    
     TP_LDDL_var_secondary = 1/Freq_LDDL_var_secondary
     Up_time_in_1_TP_secondary = TP_LDDL_var_secondary/2 ## symmetric 
     Down_time_in_1_TP_secondary = TP_LDDL_var_secondary/2 ## symmetric 
-    
     Num_total_LDDL_cycles = int((Tot_sim_time - LDDL_var_ST)/TP_LDDL_var_prime) ## total LDDL time periods that can be completed
+    Num_fast_cycles = int((TP_LDDL_var_prime/TP_LDDL_var_secondary)/2) ## within up part of the slow LDDL period
     Rem_time = (Tot_sim_time - LDDL_var_ST - (Num_total_LDDL_cycles*TP_LDDL_var_prime) ) ## time left in simulation
     
 
@@ -294,10 +286,8 @@ def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
     ## TP_LDDL_var_prime
     
     for load_var_cycles in range(0, Num_total_LDDL_cycles): # pulsing load changes
-        psspy.load_chng_6(LDDL_bus_number, LDDL_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ Base_PIload_value + 0  , 0  ,_f ,_f, _f,_f,_f,_f],"") ## real number array 
         
-        
-        for fast_load_var_iter in range(0,5):
+        for fast_load_var_iter in range(0,Num_fast_cycles):
             psspy.load_chng_6(LDDL_bus_number, LDDL_bus_ID,[_i,_i,_i,_i,_i,_i,_i],[ Base_PIload_value + 0 + LDDL_var_ampli  , 0 ,  _f ,_f, _f,_f,_f,_f],"") ## real number array 
             T_stop = T_stop + Up_time_in_1_TP_secondary ### 
             psspy.run(0, T_stop, n_prt, n_out_channel, n_CRT_PLT)
@@ -330,15 +320,17 @@ def LDDL_BiPeriodic_Load_Var(cfg, LDDL_bus):
         csv_dict[ch_id[chn_idx]] = ch_data[chn_idx] ### ch_id added as the keys (headings) and ch_data is added as the values (measurements)
     df = pd.DataFrame(csv_dict)
     df.to_csv(csvFile, index=False)
-    
-    # print('\n')
-    # print(idx)
-    # print('\n')
-    
     return(df)    
 
 
 def LDDL_Tria_Load_Var(cfg, LDDL_bus): ## Function to Emulate Triangular Load Variation
+    
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSPY311")
+    sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN")
+    os.environ['PATH'] += ';' + r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"
+
+    import psse35
+    import psspy
     
     
     Output_File_Name_Str = str(LDDL_bus)
@@ -495,9 +487,4 @@ def LDDL_Tria_Load_Var(cfg, LDDL_bus): ## Function to Emulate Triangular Load Va
         csv_dict[ch_id[chn_idx]] = ch_data[chn_idx] ### ch_id added as the keys (headings) and ch_data is added as the values (measurements)
     df = pd.DataFrame(csv_dict)
     df.to_csv(csvFile, index=False)
-    
-    # print('\n')
-    # print(idx)
-    # print('\n')
-    
     return(df)

@@ -1,24 +1,4 @@
-
-import os, sys
-import timeit
-import numpy as np
-
-
-sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSPY311")
-sys.path.append(r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN")
-os.environ['PATH'] += ';' + r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"
-
-import psse35
-import psspy
-
-import matplotlib.pyplot as plt
-from matplotlib import cm, colors            # cm & colors both needed
-import cartopy.crs as ccrs
-import cartopy.feature as cfeature
-from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
-import matplotlib as mpl
-import os
-
+import pandas as pd
 
 from scenario_menu import (
     ScenarioConfig,
@@ -26,7 +6,6 @@ from scenario_menu import (
     show_menu,
     run_review_and_execute,
 )
-
 
 
 from LDDL_Different_Load_Variations import LDDL_MonoPeriodic_Load_Var
@@ -49,16 +28,15 @@ def main():
             print("Thank you for using Large Load Risk Assessment Tool!")
             break
         elif U == "R":
-            #run_review_and_execute(cfg)
             
             print(cfg)
             print('\n')
             print(cfg.load_model.model_type)
-        
+            print(cfg.load_model.load_bus_numbers)
+            print(cfg.load_model.load_bus_ids)
             
             Locations = cfg.load_model.load_bus_numbers
-            ## location = str(Locations[0])
-            
+            LDDL_bus = Locations[0]
             for LDDL_bus in Locations:
             
                 if(cfg.load_variation.shape == "Mono-periodic"):
@@ -68,28 +46,28 @@ def main():
                 elif(cfg.load_variation.shape == "Triangular"):
                     df = LDDL_Tria_Load_Var(cfg, LDDL_bus)
                 
+                CSV_Folder = cfg.viz.case_file_location
+                PSSE_measurement_file = CSV_Folder + '\\' + 'LDDL_'+ str(LDDL_bus)+'.csv' 
+                df = pd.read_csv( PSSE_measurement_file) 
+                
                 if not df.empty:
                     BUS_FILE = cfg.viz.network_latlong_file
-                    bus_info = Read_System_Bus_Lat_Long(BUS_FILE)
-                    [osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses] = Process_LDDL_out_for_Viz(df)
+                    bus_info = Read_System_Bus_Lat_Long(BUS_FILE, cfg)
+                    [osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses] = Process_LDDL_out_for_Viz(df, cfg)
                     
                     MW_THRESHOLD = cfg.viz.mw_threshold
                     CMAX         = cfg.viz.cmax
-    
-                    ### Locations = cfg.load_model.load_bus_numbers
+
                     location = str(LDDL_bus)
                     
                     Output_Folder = cfg.files.output_file_location
                     LDDL_OscAna_Viz(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info, Output_Folder)
                     Print_Summary_Osc_Violation(location, MW_THRESHOLD, CMAX , osc_line, names_line, osc_gen, gen_buses, osc_load, load_buses, bus_info, Output_Folder )
                     
-                    
-                    print(LDDL_bus)
-                    print(Locations)
         
             
             print("LDDL Load variation simulation over. \n")
-            break   # automatically exit after R
+            break   # Exit the menu
             
         elif choice in actions:
             actions[choice](cfg)
@@ -98,7 +76,7 @@ def main():
         else:
             print("Unknown option. Try again.")
             
-        
+    return(cfg, LDDL_bus)
 
 if __name__ == "__main__":
-    main()
+    [cfg, LDDL_bus] = main()

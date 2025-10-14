@@ -5,9 +5,7 @@ import json
 import sys
 import numpy as np
 
-# -------------------------
-# Utilities
-# -------------------------
+
 def _input_with_default(prompt: str, default: str) -> str:
     raw = input(f"{prompt} [{default}]: ").strip()
     return default if raw == "" else raw
@@ -39,7 +37,7 @@ def _ask_path(prompt: str, default: str) -> str:
 
 
 # -------------------------
-# Config dataclasses
+# Configuring dataclasses
 # -------------------------
 @dataclass
 class LoadModelConfig:
@@ -95,7 +93,7 @@ def _sync_bus_ids(cfg: ScenarioConfig):
         ids = ids[:n]
     lm.load_bus_ids = ids
 # -------------------------
-# NEW Section 1: File & Case Setup (old 3a + 4a/4b/4c)
+# Section 1: File & Case Setup 
 # -------------------------
 def configure_option_1a(cfg: ScenarioConfig):
     print("\n[1a] Case file location")
@@ -115,7 +113,7 @@ def configure_option_1d(cfg: ScenarioConfig):
     cfg.files.output_file_location = _ask_path("Output file location", cfg.files.output_file_location)
 
 # -------------------------
-# NEW Section 2: LDDL model, size, and bus locations (old Section 1)
+# Section 2: LDDL model, size, and bus locations
 # -------------------------
 def configure_option_2a(cfg: ScenarioConfig):
     print("\n[2a] LDDL model")
@@ -169,7 +167,7 @@ def configure_option_2c(cfg: ScenarioConfig):
     # lm.load_bus_ids = ["1"] * n   # restored behavior: all IDs = "1"
 
 # -------------------------
-# NEW Section 3: Load variation characteristics (old Section 2)
+# Section 3: Load variation characteristics
 # -------------------------
 def configure_option_3a(cfg: ScenarioConfig):
     print("\n[3a] Load variation shape")
@@ -206,18 +204,21 @@ def configure_option_3b(cfg: ScenarioConfig):
 
     if lv.shape == "Bi-periodic":
         while True:
-            default_secondary = lv.freq_secondary_hz if lv.freq_secondary_hz is not None else 0.5
-            secondary = _ask(
+            # --- Default secondary frequency is 10 Hz if not set ---
+            default_secondary = lv.freq_secondary_hz or 10.0
+
+            lv.freq_secondary_hz = _ask(
                 "Secondary frequency Hz", default_secondary, float,
                 lambda x: x > 0 or (_ for _ in ()).throw(ValueError("> 0 required"))
             )
-            if lv.freq_primary_hz < secondary:
-                lv.freq_secondary_hz = secondary
+
+            if lv.freq_primary_hz < lv.freq_secondary_hz:
                 break
             else:
                 print("Primary frequency must be slower (smaller) than Secondary frequency. Please try again.")
     else:
         lv.freq_secondary_hz = None
+
 
 def configure_option_3c(cfg: ScenarioConfig):
     print("\n[3c] Start time")
@@ -246,7 +247,7 @@ def configure_option_3d(cfg: ScenarioConfig):
             break
 
 # -------------------------
-# NEW Section 4: Analysis & Visualization (old Section 3 without 3a)
+# Section 4: Analysis & Visualization
 # -------------------------
 def configure_option_4a(cfg: ScenarioConfig):
     print("\n[4a] Network lat/long file")
@@ -271,7 +272,7 @@ def run_review_and_execute(cfg: ScenarioConfig):
     print("===================================\n")
 
 # -------------------------
-# Menu helpers
+# Showing Menu
 # -------------------------
 def show_menu() -> str:
     print("""
@@ -301,7 +302,7 @@ Other:
   R   : Review & Run
   Q   : Quit
 ==========================================
-""") #   3d  : Stop time (s) — must be > Start time + 5 cycles (from primary frequency)
+""") 
     return input("Choose an option: ").strip()
 
 def build_actions() -> Dict[str, Callable[[ScenarioConfig], None]]:
