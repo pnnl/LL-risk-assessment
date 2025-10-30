@@ -30,9 +30,13 @@ Upon running the main file "main_LL_risk_assessment.py", the user is presented w
 
 Alternatively, the user can also input the selections through a csv. 'input_config_wecc240.csv' is an example. 'PATH' should be replaced by folder where these scripts are contained. 
 
-<img width="327" height="341" alt="image" src="https://github.com/user-attachments/assets/3d17f6d7-6de8-4bb3-bc5f-156ad88c3262" />
+<p align="center">
+<img width="651" height="341" alt="image" src="https://github.com/user-attachments/assets/00aeda6d-3413-4d9a-9d0c-bcfd6d06a13b" />
+</p>
 
-  Several outputs are provided - (a) a csv with PSS/E dynamic simulation results, (b) plots visualizing voltage deviations and elements where active power oscillation amplitudes are above the specified threshold, (c) a csv summarizing observed instances of high-amplitude oscillations across the network, and (d) csvs listing generators, loads, and tie-lines where oscillation amplitudes cross the specified threshold. Outputs are stored in a folder called 'Results_XXX' where XXX is the load bus specified. If the latitude and longitude of buses are provided, then a geographic plot visualizing the impact of oscillations will also be produced. An example is included for the WECC 240 bus case. 
+  Several outputs are provided - (a) a csv with PSS/E dynamic simulation results, (b) plots visualizing voltage deviations and elements where active power oscillation amplitudes are above the specified threshold, (c) a csv summarizing observed instances of high-amplitude oscillations across the network, and (d) csvs listing generators, loads, and tie-lines where oscillation amplitudes cross the specified threshold. 
+  
+  Outputs are stored in a folder called '_Results_XXX_' where XXX is the load bus specified. If the latitude and longitude of buses are provided, then a geographic plot visualizing the impact of oscillations will also be produced. An example is included for the WECC 240 bus case. 
 
   **NOTES for test cases**:
 The scripts have been tested with three PSSE cases and dyr files, as uploaded here. 
@@ -42,4 +46,4 @@ The scripts have been tested with three PSSE cases and dyr files, as uploaded he
 
 We have not tested with larger systems incorporating user defined models yet. We welcome feedback if you test the scripts out with larger planning models. Please report bugs/other issues/suggestions to shuchismita.biswas@pnnl.gov. 
 
-If PSSE version or other initialization parameters need to be specified, it can be done in the initialize_dynamic_simulation() function within LDDL_Different_Load_Variations.py.
+If PSSE version or other initialization parameters need to be specified, it can be done in the _initialize_dynamic_simulation()_ function within _LDDL_Different_Load_Variations.py_.
