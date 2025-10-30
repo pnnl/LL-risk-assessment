@@ -8,10 +8,11 @@ To cite this work, please use "Biswas, Shuchismita, Antos C. Varghese, Kaustav C
 ## Introduction
 The structure of suite of scripts are detailed below.
 ```text
-├─ main_LL_risk_assessment.py              # Main code 
+├─ main_LL_risk_assessment.py              # Main code for asking configuration input and running the framework
 ├─ scenario_menu.py            # Setting command line interface options
-├─ LDDL_Different_Load_Variations.py               # Different periodic load variation patterns
-├─ LDDL_Viz_Functions.py       # Risk assessment and visualizations
+├─ LDDL_Different_Load_Variations.py               # scripts for running PSSE simulations for different periodic load variation patterns
+├─ LDDL_Viz_Functions.py       # scripts for analyzing PSSE output to generate risk assessment and visualizations
+├─ system_summary.py           # scripts for shortlisting buses and tie-lines to be examined and recorded during PSSE simulations
 ├─ requirements.txt            # PSS/E, Python and Folder locations requirements
 └─ README.md
 ```
