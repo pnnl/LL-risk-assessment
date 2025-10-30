@@ -22,11 +22,24 @@ Upon running the main file "main_LL_risk_assessment.py", the user is presented w
   <img src="images/SS_CLI_menu_LDDL_tool.png" alt="Options to User" />
 </p>
 
-
 <p align="justify"> The menu has four sections. 
 <p align="justify">  (1) The first section allows users to choose the location of case files, and specify case file names.
 <p align="justify">  (2) The second section allows users to specify network locations where oscillations are to be injected from and other LDDL parameters. 
 <p align="justify"> (3) The third section allows users to specify oscillation parameters.
 <p align="justify">  (4) The fourth section allows users to specify latitude-longitude information of network parameters for effective visualizations. Users can also select a power swing MW threshold. The script will help identify network elements where the oscillation amplitude crosses the specified threshold.
 
-  Three outputs are provided - (a) a csv with PSS/E dynamic simulation results, (b) a plot visualizing where oscillation amplitudes are above the specified threshold, and (c) a csv summarizing observed instances of high-amplitude oscillations across the network.
+Alternatively, the user can also input the selections through a csv. 'input_config_wecc240.csv' is an example. 'PATH' should be replaced by folder where these scripts are contained. 
+
+<img width="327" height="341" alt="image" src="https://github.com/user-attachments/assets/3d17f6d7-6de8-4bb3-bc5f-156ad88c3262" />
+
+  Several outputs are provided - (a) a csv with PSS/E dynamic simulation results, (b) plots visualizing voltage deviations and elements where active power oscillation amplitudes are above the specified threshold, (c) a csv summarizing observed instances of high-amplitude oscillations across the network, and (d) csvs listing generators, loads, and tie-lines where oscillation amplitudes cross the specified threshold. Outputs are stored in a folder called 'Results_XXX' where XXX is the load bus specified. If the latitude and longitude of buses are provided, then a geographic plot visualizing the impact of oscillations will also be produced. An example is included for the WECC 240 bus case. 
+
+  **NOTES for test cases**:
+The scripts have been tested with three PSSE cases and dyr files, as uploaded here. 
+1) The WECC 240 bus case https://www.nrel.gov/grid/test-case-repository (The scripts are configured to run 1 Hz oscillations from bus 1302 in this model by default).
+2) The ACTIVSg500 case https://electricgrids.engr.tamu.edu/electric-grid-test-cases/activsg500/
+3) The New England 68-Bus test system https://electricgrids.engr.tamu.edu/electric-grid-test-cases/new-england-68-bus-test-system/
+
+We have not tested with larger systems incorporating user defined models yet. We welcome feedback if you test the scripts out with larger planning models. Please report bugs/other issues/suggestions to shuchismita.biswas@pnnl.gov. 
+
+If PSSE version or other initialization parameters need to be specified, it can be done in the initialize_dynamic_simulation() function within LDDL_Different_Load_Variations.py.
