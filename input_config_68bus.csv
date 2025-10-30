@@ -1,0 +1,17 @@
+section,key,value
+system,cwd,PATH
+system,PSSE_LOCATION,C:\Program Files\PTI\PSSE35\35.6\PSSBIN
+files,case_file_location,PATH\PSSE_Cases
+files,raw_file,NETS-NYPS 68 Bus System.raw
+files,dyr_file,NETS-NYPS 68 Bus System.dyr
+files,output_file_location,PATH
+load_model,model_type,ZIP
+load_model,total_load_MW,100
+load_model,load_bus_number,17
+load_variation,shape,Mono-periodic
+load_variation,freq_primary_hz,1
+load_variation,freq_secondary_hz,
+load_variation,start_time_s,2
+load_variation,sim_run_time_s,30
+viz,network_latlong_file,68_bus_summary.csv
+viz,mw_threshold,20

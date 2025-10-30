@@ -2,9 +2,9 @@ from dataclasses import dataclass, field, asdict
 from typing import Callable, Optional, Dict, Any, List
 from pathlib import Path
 import json
-import sys
 import numpy as np
-
+import csv
+import ast
 
 def _input_with_default(prompt: str, default: str) -> str:
     raw = input(f"{prompt} [{default}]: ").strip()
@@ -33,23 +33,31 @@ def _ask_choice(prompt: str, default: str, choices: List[str]) -> str:
 def _ask_path(prompt: str, default: str) -> str:
     return _ask(prompt, default, str)
 
-
-
-
 # -------------------------
 # Configuring dataclasses
 # -------------------------
 @dataclass
+class SystemPathsConfig:
+    cwd: str = str(Path.cwd())  # kept for compatibility (not menu-exposed)
+    PSSE_LOCATION: str = r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"  # kept (not menu-exposed)
+    
+@dataclass
+class FileNamesConfig:
+    case_file_location: str = str(Path.cwd()) +'\\PSSE_Cases'    # 1a
+    raw_file: str = "240busWECC_2018_PSS.raw"     # 1b
+    dyr_file: str = "240busWECC_2018_PSS.dyr"     # 1c
+    output_file_location: str = str(Path.cwd())   # 1d
+    
+@dataclass
 class LoadModelConfig:
-    model_type: str = "ZIP"  # ZIP or CMLD
-    total_load_MW: float = 100.0
-    total_load_MVAR: float = 100.0  # will be set from MW by default in 1b
-    load_bus_numbers: List[int] = field(default_factory=lambda: [1302])
-    load_bus_ids: List[str] = field(default_factory=lambda: ["1"])  # always "1"
-
+    model_type: str = "ZIP"      # 2a - ZIP or CMLD
+    total_load_MW: float = 100.0 # 2b
+    #total_load_MVAR: float = 0   # will be set as 0 by default 
+    load_bus_number: List[int] = 1302 #2c
+    
 @dataclass
 class LoadVariationConfig:
-    shape: str = "Mono-periodic"  # 3a: shape (after reorg)
+    shape: str = "Mono-periodic"   # 3a: shape (after reorg)
     freq_primary_hz: float = 1.00  # 3b: frequency
     freq_secondary_hz: Optional[float] = None
     start_time_s: float = 2.0      # 3c
@@ -57,48 +65,73 @@ class LoadVariationConfig:
 
 @dataclass
 class VisualizationConfig:
-    case_file_location: str = str(Path.cwd())  # 1a
     network_latlong_file: str = "MiniWECC_240bus_Buses_Areas_Zones.csv"  # 4a
     mw_threshold: float = 20  # 4b (peak-peak threshold for visualization)
-    cmax: float = 200         # kept in dataclass for compatibility (not menu-exposed)
-    source_bus_name: str = "Source_Bus"  # kept in dataclass for compatibility (not menu-exposed)
-
-@dataclass
-class SystemPathsConfig:
-    cwd: str = str(Path.cwd())  # kept for compatibility (not menu-exposed)
-    PSSE_LOCATION: str = r"C:\Program Files\PTI\PSSE35\35.6\PSSBIN"  # kept (not menu-exposed)
-
-@dataclass
-class FileNamesConfig:
-    raw_file: str = "240busWECC_2018_PSS.raw"     # 1b
-    dyr_file: str = "240busWECC_2018_PSS.dyr"     # 1c
-    output_file_location: str = str(Path.cwd())   # 1d
-
+   
 @dataclass
 class ScenarioConfig:
+    system: SystemPathsConfig = field(default_factory=SystemPathsConfig)
+    files: FileNamesConfig = field(default_factory=FileNamesConfig)
     load_model: LoadModelConfig = field(default_factory=LoadModelConfig)
     load_variation: LoadVariationConfig = field(default_factory=LoadVariationConfig)
     viz: VisualizationConfig = field(default_factory=VisualizationConfig)
-    system: SystemPathsConfig = field(default_factory=SystemPathsConfig)
-    files: FileNamesConfig = field(default_factory=FileNamesConfig)
 
-def _sync_bus_ids(cfg: ScenarioConfig):
-    """Ensure load_bus_ids length matches load_bus_numbers length (pad with '1' or truncate)."""
-    lm = cfg.load_model
-    n = len(lm.load_bus_numbers)
-    ids = list(lm.load_bus_ids)
-    if len(ids) < n:
-        ids += ["1"] * (n - len(ids))
-    else:
-        ids = ids[:n]
-    lm.load_bus_ids = ids
-# -------------------------
-# Section 1: File & Case Setup 
-# -------------------------
+#-------- reading and saving configuration as csv------
+
+def load_config_from_csv(csv_path: str) -> ScenarioConfig:
+    """Load configuration values from a CSV file into a ScenarioConfig."""
+    cfg = ScenarioConfig()
+    print(f"Loading configuration from {csv_path} ...")
+
+    with open(csv_path, newline='', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            section = row["section"].strip()
+            key = row["key"].strip()
+            value_raw = row["value"].strip()
+
+            # Try to interpret value safely
+            try:
+                value = ast.literal_eval(value_raw)
+            except Exception:
+                value = value_raw
+
+            # Set section/key if valid
+            target = getattr(cfg, section, None)
+            if target is None:
+                print(f"⚠️  Unknown section '{section}', skipping row.")
+                continue
+
+            if hasattr(target, key):
+                setattr(target, key, value)
+            else:
+                print(f"⚠️  Unknown key '{key}' in section '{section}', skipping row.")
+
+    print("Configuration loaded successfully.\n")
+    return cfg
+
+def save_config_to_csv(cfg: ScenarioConfig, csv_path: str):
+    """Save current configuration into a CSV file."""
+    rows = []
+    for section_name, section_obj in asdict(cfg).items():
+        for key, value in section_obj.items():
+            rows.append({
+                "section": section_name,
+                "key": key,
+                "value": value
+            })
+    with open(csv_path, "w", newline='', encoding='utf-8') as f:
+        writer = csv.DictWriter(f, fieldnames=["section", "key", "value"])
+        writer.writeheader()
+        writer.writerows(rows)
+    print(f"Configuration saved to {csv_path}")
+    
+# -------------- setting configuration options-----
+    
 def configure_option_1a(cfg: ScenarioConfig):
     print("\n[1a] Case file location")
-    default_loc = cfg.viz.case_file_location or str(Path.cwd())
-    cfg.viz.case_file_location = _ask_path("Case file location (dir or file)", default_loc)
+    default_loc = cfg.viz.case_file_location or str(Path.cwd()+'\\PSSE_Cases')
+    cfg.files.case_file_location = _ask_path("Case file location (dir or file)", default_loc)
 
 def configure_option_1b(cfg: ScenarioConfig):
     print("\n[1b] Raw file name")
@@ -112,9 +145,6 @@ def configure_option_1d(cfg: ScenarioConfig):
     print("\n[1d] Output file location")
     cfg.files.output_file_location = _ask_path("Output file location", cfg.files.output_file_location)
 
-# -------------------------
-# Section 2: LDDL model, size, and bus locations
-# -------------------------
 def configure_option_2a(cfg: ScenarioConfig):
     print("\n[2a] LDDL model")
     cfg.load_model.model_type = _ask_choice(
@@ -127,48 +157,14 @@ def configure_option_2b(cfg: ScenarioConfig):
         "Total load MW", cfg.load_model.total_load_MW, float,
         lambda x: x >= 0 or (_ for _ in ()).throw(ValueError(">= 0 required"))
     )
-    # Set MVAR = MW by default (hidden, no user input)
-    cfg.load_model.total_load_MVAR = cfg.load_model.total_load_MW
 
 def configure_option_2c(cfg: ScenarioConfig):
-    print("\n[2c] LDDL bus numbers")
-    lm = cfg.load_model
-
-    current_numbers = list(lm.load_bus_numbers)
-    current_n = len(current_numbers)
-
-    n = _ask(
-        "How many load buses?", current_n, int,
-        lambda x: x > 0 or (_ for _ in ()).throw(ValueError("> 0 required"))
+    print("\n[2c] LDDL bus number")
+    cfg.load_model.load_bus_number = _ask(
+        "Which bus to place a LDDL?", cfg.load_model.load_bus_number, int,
+        lambda x: x >= 0 or (_ for _ in ()).throw(ValueError(">= 0 required"))
     )
-
-    nums = []
-    for i in range(n):
-        # Per-index default:
-        if i < current_n:
-            default_num = current_numbers[i]          # use existing i-th value
-        elif nums:                                     # if adding new rows, reuse last typed
-            default_num = nums[-1]
-        else:
-            default_num = 1302                         # initial fallback
-
-        nums.append(_ask(
-            f"Bus #{i+1} number", default_num, int,
-            lambda x: x > 0 or (_ for _ in ()).throw(ValueError("> 0 required"))
-        ))
-
-    ### update here
-    n = 1
-    lm.load_bus_numbers = np.asarray([nums[0]]) # lm.load_bus_numbers = nums
-    lm.load_bus_ids = ["1"] * n   # restored behavior: all IDs = "1"
-
     
-    # lm.load_bus_numbers = nums # lm.load_bus_numbers = nums
-    # lm.load_bus_ids = ["1"] * n   # restored behavior: all IDs = "1"
-
-# -------------------------
-# Section 3: Load variation characteristics
-# -------------------------
 def configure_option_3a(cfg: ScenarioConfig):
     print("\n[3a] Load variation shape")
     print("Choose shape:")
@@ -229,7 +225,7 @@ def configure_option_3c(cfg: ScenarioConfig):
 
 def configure_option_3d(cfg: ScenarioConfig):
     print("\n[3d] Stop time")
-    # New rule: Stop time > Start time + 5 cycles (cycles from PRIMARY frequency)
+    # Rule: Stop time > Start time + 5 cycles (cycles from PRIMARY frequency)
     lv = cfg.load_variation
     # Ensure primary freq is valid
     f = lv.freq_primary_hz if lv.freq_primary_hz and lv.freq_primary_hz > 0 else 0.10
@@ -246,9 +242,6 @@ def configure_option_3d(cfg: ScenarioConfig):
             lv.sim_run_time_s = val
             break
 
-# -------------------------
-# Section 4: Analysis & Visualization
-# -------------------------
 def configure_option_4a(cfg: ScenarioConfig):
     print("\n[4a] Network lat/long file")
     cfg.viz.network_latlong_file = _ask_path(
@@ -283,13 +276,13 @@ Section 1 (Model Input/ Output Setup):
   1c  : DYR file name
   1d  : Output files location
 
-Section 2 (LDDL model & locations):
+Section 2 (LDDL model & location):
   2a  : LDDL model
   2b  : LDDL size (MW)
-  2c  : LDDL bus numbers
+  2c  : LDDL bus number
   
 Section 3 (Load variation characteristics):
-  3a  : Shape (Mono-periodic / Bi-periodic / Triangular)
+  3a  : Shape (Mono-periodic square / Bi-periodic square / Triangular)
   3b  : Frequency
   3c  : Start time (s)
   3d  : Stop time (s) 
@@ -307,21 +300,21 @@ Other:
 
 def build_actions() -> Dict[str, Callable[[ScenarioConfig], None]]:
     return {
-        # Section 1 (new)
+        # Section 1 
         "1a": configure_option_1a,
         "1b": configure_option_1b,
         "1c": configure_option_1c,
         "1d": configure_option_1d,
-        # Section 2 (old section 1)
+        # Section 2 
         "2a": configure_option_2a,
         "2b": configure_option_2b,
         "2c": configure_option_2c,
-        # Section 3 (old section 2)
+        # Section 3 
         "3a": configure_option_3a,
         "3b": configure_option_3b,
         "3c": configure_option_3c,
         "3d": configure_option_3d,
-        # Section 4 (old section 3 minus 3a)
+        # Section 4 
         "4a": configure_option_4a,
         "4b": configure_option_4b,
     }
