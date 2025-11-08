@@ -116,18 +116,14 @@ def Process_LDDL_out_for_Viz(df, cfg):
     
     # Divvying up PSSE output to generator, load, and line values. Currently not logging outputs from other elements
     # masks with whitespace-tolerant regex
-    is_line = [bool(re.match(r"POWR\s*\d+\s*TO\s*\d+", n)) for n in signal_names]
+    is_line = [bool(re.match(r"POWR\s*\d+\s*TO\s*\d+", n)) for n in signal_names] # re.match may fail if there are trailing spaces. can try re.search
     is_gen  = [bool(re.match(r"POWR\s*\d+", n)) and not l
                for n, l in zip(signal_names, is_line)]
     is_load = []
     for n in signal_names:
-        m = re.match(r"PLOD\s*(\d+)", n)
+        m = re.search(r"PLOD\s*(\d+)", n)
         if m:
-            num = int(m.group(1))
-            if num in np.array(loads.BUS_NUMBER) or num==LDDL_bus_number:
-                is_load.append(True)
-            else:
-                is_load.append(False)
+            is_load.append(True)
         else:
             is_load.append(False)
     is_v = [x for x in signal_names if 'VOLT' in x]
@@ -478,3 +474,4 @@ def LDDL_OscAna_Viz(location, MW_THRESHOLD, osc_line, names_line, osc_gen, gen_b
     
    
     
+
