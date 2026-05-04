@@ -1,0 +1,9 @@
+﻿Variable,Value
+case_name,240busWECC_2018_PSS
+dyr_name,240busWECC_2018_PSS
+bus_number,6508
+load_id,1
+oscillation_shape,square
+oscillation_frequency,1.2
+oscillation_amplitude,100
+oscillation_frequency_fast,

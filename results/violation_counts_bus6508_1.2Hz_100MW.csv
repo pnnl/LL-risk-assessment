@@ -1,0 +1,20 @@
+section,metric,unit,threshold,n_total,n_violations,pct_violations,worst_value,worst_element,worst_pct_threshold
+Generator,P swing amplitude,MW,5.0,139,36,25.9,110.6077,Bus 6533 (EMERY),2212.15
+Generator,Q swing amplitude,MVar,5.0,139,22,15.8,81.5717,Bus 6533 (EMERY),1631.43
+Generator,Vt swing amplitude,pu,0.05,139,0,0.0,0.0064,Bus 6533 (EMERY),12.82
+Generator,Freq swing,Hz,0.03,139,5,3.6,0.0336,Bus 6533 (EMERY),112.06
+Generator,Angle swing,deg,10.0,139,0,0.0,1.6751,Bus 6533 (EMERY),16.75
+Generator,Pmax violation (pg_max > Pmax),%Pmax,100.0,139,0,0.0,96.59,Bus 2634 (INTERM1G),96.59
+Generator,Qmax violation (qg_max > Qmax),MVar,,139,0,0.0,40.63,Bus 2637 (OWENS G),
+Generator,Qmin violation (qg_min < Qmin),MVar,,139,1,0.7,-121.62,Bus 3731 (SUMMIT),
+Generator,P swing % Mbase,%Mbase,5.0,139,0,0.0,2.694,Bus 2634 (INTERM1G),53.88
+Line,P swing amplitude,MW,20.0,112,17,15.2,83.5135,6502 → 6508 (ckt 1),417.57
+HV Bus,V swing amplitude,pu,0.05,159,0,0.0,0.0116,Bus 6508 (SPAN FRK) 345 kV,23.24
+HV Bus,V max envelope,pu,1.1,159,11,6.9,1.13,Bus 4003 (BURNS) 500 kV,102.72
+HV Bus,V min envelope,pu,0.9,159,0,0.0,0.962,Bus 3405 (WILSON) 230 kV,93.11
+Load,P swing amplitude,MW,5.0,130,5,3.8,18.8465,Bus 6510 (BENLOMND),376.93
+LDDL,LDDL P swing,MW,5.0,1,0,0.0,3.0218,LDDL P,60.44
+LDDL,LDDL Q swing,MVar,5.0,1,0,0.0,1.8659,LDDL Q,37.32
+LDDL,LDDL OS P swing,MW,5.0,1,1,100.0,100.0,LDDL OS P,2000.0
+LDDL,LDDL OS Q swing,MVar,5.0,1,0,0.0,0.0,LDDL OS Q,0.0
+LDDL,LDDL Bus V swing,pu,0.05,1,0,0.0,0.0234,LDDL BUS VOLTAGE,46.85

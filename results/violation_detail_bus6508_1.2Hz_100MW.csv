@@ -1,0 +1,99 @@
+section,element,metric,value,unit,threshold,pct_threshold,margin
+Generator,Bus 1032 (FCNGN4CC),P swing amplitude,5.1018,MW,5.0,102.04,0.1018
+Generator,Bus 1034 (SJUAN G4),P swing amplitude,14.6341,MW,5.0,292.68,9.6341
+Generator,Bus 1034 (SJUAN G4),P swing amplitude,19.1973,MW,5.0,383.95,14.1973
+Generator,Bus 1131 (CORONADO),P swing amplitude,6.0792,MW,5.0,121.58,1.0792
+Generator,Bus 1131 (CORONADO),P swing amplitude,22.8142,MW,5.0,456.28,17.8142
+Generator,Bus 1232 (NAVAJO 2),P swing amplitude,28.4565,MW,5.0,569.13,23.4565
+Generator,Bus 1232 (NAVAJO 2),P swing amplitude,6.9024,MW,5.0,138.05,1.9024
+Generator,Bus 1331 (HOOVER),P swing amplitude,5.5054,MW,5.0,110.11,0.5054
+Generator,Bus 1331 (HOOVER),P swing amplitude,6.2099,MW,5.0,124.2,1.2099
+Generator,Bus 1333 (H ALLEN),P swing amplitude,14.3932,MW,5.0,287.86,9.3932
+Generator,Bus 1431 (PALOVRD2),P swing amplitude,54.4075,MW,5.0,1088.15,49.4075
+Generator,Bus 1431 (PALOVRD2),P swing amplitude,25.6525,MW,5.0,513.05,20.6525
+Generator,Bus 2030 (MEXICO),P swing amplitude,5.4855,MW,5.0,109.71,0.4855
+Generator,Bus 2634 (INTERM1G),P swing amplitude,51.1863,MW,5.0,1023.73,46.1863
+Generator,Bus 4035 (JOHN DAY),P swing amplitude,5.2471,MW,5.0,104.94,0.2471
+Generator,Bus 4131 (COULEE),P swing amplitude,24.0623,MW,5.0,481.25,19.0623
+Generator,Bus 4132 (HANFORD),P swing amplitude,9.4036,MW,5.0,188.07,4.4036
+Generator,Bus 4231 (NORTH G3),P swing amplitude,6.7297,MW,5.0,134.59,1.7297
+Generator,Bus 5031 (CANAD G1),P swing amplitude,6.9012,MW,5.0,138.02,1.9012
+Generator,Bus 5032 (CMAIN GM),P swing amplitude,13.9229,MW,5.0,278.46,8.9229
+Generator,Bus 5032 (CMAIN GM),P swing amplitude,8.2155,MW,5.0,164.31,3.2155
+Generator,Bus 6132 (MIDPOINT),P swing amplitude,6.4685,MW,5.0,129.37,1.4685
+Generator,Bus 6132 (MIDPOINT),P swing amplitude,13.9648,MW,5.0,279.3,8.9648
+Generator,Bus 6231 (COLSTRP),P swing amplitude,18.9546,MW,5.0,379.09,13.9546
+Generator,Bus 6235 (MONTA G1),P swing amplitude,17.8949,MW,5.0,357.9,12.8949
+Generator,Bus 6333 (BRIDGER),P swing amplitude,80.4434,MW,5.0,1608.87,75.4434
+Generator,Bus 6335 (NAUGHT),P swing amplitude,42.1013,MW,5.0,842.03,37.1013
+Generator,Bus 6335 (NAUGHT),P swing amplitude,5.6362,MW,5.0,112.72,0.6362
+Generator,Bus 6335 (NAUGHT),P swing amplitude,5.7056,MW,5.0,114.11,0.7056
+Generator,Bus 6433 (VALMY),P swing amplitude,9.3919,MW,5.0,187.84,4.3919
+Generator,Bus 6433 (VALMY),P swing amplitude,16.4703,MW,5.0,329.41,11.4703
+Generator,Bus 6533 (EMERY),P swing amplitude,88.0263,MW,5.0,1760.53,83.0263
+Generator,Bus 6533 (EMERY),P swing amplitude,110.6077,MW,5.0,2212.15,105.6077
+Generator,Bus 6533 (EMERY),P swing amplitude,9.7041,MW,5.0,194.08,4.7041
+Generator,Bus 7031 (COLOEAST),P swing amplitude,5.491,MW,5.0,109.82,0.491
+Generator,Bus 7031 (COLOEAST),P swing amplitude,8.2714,MW,5.0,165.43,3.2714
+Generator,Bus 1034 (SJUAN G4),Q swing amplitude,8.9226,MVar,5.0,178.45,3.9226
+Generator,Bus 1034 (SJUAN G4),Q swing amplitude,8.9226,MVar,5.0,178.45,3.9226
+Generator,Bus 1034 (SJUAN G4),Q swing amplitude,8.9226,MVar,5.0,178.45,3.9226
+Generator,Bus 1232 (NAVAJO 2),Q swing amplitude,7.962,MVar,5.0,159.24,2.962
+Generator,Bus 1232 (NAVAJO 2),Q swing amplitude,7.962,MVar,5.0,159.24,2.962
+Generator,Bus 2634 (INTERM1G),Q swing amplitude,20.0391,MVar,5.0,400.78,15.0391
+Generator,Bus 6231 (COLSTRP),Q swing amplitude,6.5784,MVar,5.0,131.57,1.5784
+Generator,Bus 6231 (COLSTRP),Q swing amplitude,6.5784,MVar,5.0,131.57,1.5784
+Generator,Bus 6333 (BRIDGER),Q swing amplitude,44.4176,MVar,5.0,888.35,39.4176
+Generator,Bus 6333 (BRIDGER),Q swing amplitude,44.4176,MVar,5.0,888.35,39.4176
+Generator,Bus 6335 (NAUGHT),Q swing amplitude,44.9371,MVar,5.0,898.74,39.9371
+Generator,Bus 6335 (NAUGHT),Q swing amplitude,44.9371,MVar,5.0,898.74,39.9371
+Generator,Bus 6335 (NAUGHT),Q swing amplitude,44.9371,MVar,5.0,898.74,39.9371
+Generator,Bus 6533 (EMERY),Q swing amplitude,81.5717,MVar,5.0,1631.43,76.5717
+Generator,Bus 6533 (EMERY),Q swing amplitude,81.5717,MVar,5.0,1631.43,76.5717
+Generator,Bus 6533 (EMERY),Q swing amplitude,81.5717,MVar,5.0,1631.43,76.5717
+Generator,Bus 6533 (EMERY),Q swing amplitude,81.5717,MVar,5.0,1631.43,76.5717
+Generator,Bus 6533 (EMERY),Q swing amplitude,81.5717,MVar,5.0,1631.43,76.5717
+Generator,Bus 7031 (COLOEAST),Q swing amplitude,9.1275,MVar,5.0,182.55,4.1275
+Generator,Bus 7031 (COLOEAST),Q swing amplitude,9.1275,MVar,5.0,182.55,4.1275
+Generator,Bus 7031 (COLOEAST),Q swing amplitude,9.1275,MVar,5.0,182.55,4.1275
+Generator,Bus 7031 (COLOEAST),Q swing amplitude,9.1275,MVar,5.0,182.55,4.1275
+Generator,Bus 6533 (EMERY),Freq swing,0.0336,Hz,0.03,112.06,0.0036
+Generator,Bus 6533 (EMERY),Freq swing,0.0336,Hz,0.03,112.06,0.0036
+Generator,Bus 6533 (EMERY),Freq swing,0.0336,Hz,0.03,112.06,0.0036
+Generator,Bus 6533 (EMERY),Freq swing,0.0336,Hz,0.03,112.06,0.0036
+Generator,Bus 6533 (EMERY),Freq swing,0.0336,Hz,0.03,112.06,0.0036
+Generator,Bus 3731 (SUMMIT),Qmin violation (qg_min < Qmin),-121.62,MVar,-121.0,,0.62
+Line,4201 → 5001 (ckt 1),P swing amplitude,23.9272,MW,20.0,119.64,3.9272
+Line,6102 → 6403 (ckt 1),P swing amplitude,21.2452,MW,20.0,106.23,1.2452
+Line,6103 → 6501 (ckt 1),P swing amplitude,28.7913,MW,20.0,143.96,8.7913
+Line,6103 → 6501 (ckt 2),P swing amplitude,28.7913,MW,20.0,143.96,8.7913
+Line,6201 → 6202 (ckt 1),P swing amplitude,25.6122,MW,20.0,128.06,5.6122
+Line,6305 → 6510 (ckt 1),P swing amplitude,29.2345,MW,20.0,146.17,9.2345
+Line,6305 → 6510 (ckt 2),P swing amplitude,29.1934,MW,20.0,145.97,9.1934
+Line,6501 → 6502 (ckt 1),P swing amplitude,52.6151,MW,20.0,263.08,32.6151
+Line,6501 → 6504 (ckt 1),P swing amplitude,51.9821,MW,20.0,259.91,31.9821
+Line,6502 → 6503 (ckt 1),P swing amplitude,21.8534,MW,20.0,109.27,1.8534
+Line,6502 → 6503 (ckt 2),P swing amplitude,24.4682,MW,20.0,122.34,4.4682
+Line,6502 → 6504 (ckt 3),P swing amplitude,21.8752,MW,20.0,109.38,1.8752
+Line,6502 → 6508 (ckt 1),P swing amplitude,83.5135,MW,20.0,417.57,63.5135
+Line,6503 → 6504 (ckt 1),P swing amplitude,38.1187,MW,20.0,190.59,18.1187
+Line,6503 → 6507 (ckt 1),P swing amplitude,23.8251,MW,20.0,119.13,3.8251
+Line,6503 → 6507 (ckt 2),P swing amplitude,23.9554,MW,20.0,119.78,3.9554
+Line,6503 → 6508 (ckt 1),P swing amplitude,53.5507,MW,20.0,267.75,33.5507
+HV Bus,Bus 4002 (SUMMER L) 500 kV,V max envelope,1.1148,pu,1.1,101.34,0.0148
+HV Bus,Bus 4004 (GRIZZLY) 500 kV,V max envelope,1.1016,pu,1.1,100.14,0.0016
+HV Bus,Bus 4101 (COULEE) 500 kV,V max envelope,1.1282,pu,1.1,102.57,0.0282
+HV Bus,Bus 4201 (NORTH) 500 kV,V max envelope,1.1201,pu,1.1,101.83,0.0201
+HV Bus,Bus 4003 (BURNS) 500 kV,V max envelope,1.13,pu,1.1,102.72,0.03
+HV Bus,Bus 4090 (MALIN1) 500 kV,V max envelope,1.1113,pu,1.1,101.03,0.0113
+HV Bus,Bus 4091 (GRIZZLY1) 500 kV,V max envelope,1.111,pu,1.1,101.0,0.011
+HV Bus,Bus 4094 (GRIZZLY4) 500 kV,V max envelope,1.1062,pu,1.1,100.56,0.0062
+HV Bus,Bus 4097 (GRIZZLY7) 500 kV,V max envelope,1.1059,pu,1.1,100.54,0.0059
+HV Bus,Bus 2901 (ELDORADO) 500 kV,V max envelope,1.1077,pu,1.1,100.7,0.0077
+HV Bus,Bus 6403 (VALMY) 345 kV,V max envelope,1.1107,pu,1.1,100.97,0.0107
+Load,Bus 2604 (INTERMT),P swing amplitude,8.5703,MW,5.0,171.41,3.5703
+Load,Bus 6104 (BORAH),P swing amplitude,5.8882,MW,5.0,117.76,0.8882
+Load,Bus 6502 (CAMP WIL),P swing amplitude,11.8545,MW,5.0,237.09,6.8545
+Load,Bus 6510 (BENLOMND),P swing amplitude,18.8465,MW,5.0,376.93,13.8465
+Load,Bus 7001 (COLOEAST),P swing amplitude,6.8222,MW,5.0,136.44,1.8222
+LDDL,LDDL OS P,LDDL OS P swing,100.0,MW,5.0,2000.0,95.0

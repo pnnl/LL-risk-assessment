@@ -1,0 +1,2 @@
+from_bus,to_bus,ckt,from_kv,rate_b_mva,R_pu,X_pu,phi_deg,s_lim_mva,z_lim_pu,z3_reach_pu,z3_r_pu,z3_x_pu,z_base_ohm,z3_reach_ohm
+1002.0,6506.0,1.0,345.0,100.0,0.0047999997623264,0.0436000004410743,83.718,150.0,0.481667,0.813947,0.089071,0.809058,1190.25,968.8

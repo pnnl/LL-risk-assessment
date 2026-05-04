@@ -1,0 +1,7 @@
+﻿Variable,Value
+case_name,240busWECC_2018_PSS
+dyr_name,240busWECC_2018_PSS
+voltage_sensitivity_minKV,69
+voltage_sensitivity_maxKV,500
+area,
+angle_sensitivity_minMW,20
