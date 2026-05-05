@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 RATLLE- Risk Assessment Tool for Large Load Induced Events 
 To provide feedback or report bugs, please email shuchismita.biswas@pnnl.gov

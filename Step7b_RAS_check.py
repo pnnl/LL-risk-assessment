@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Step8_ras_check.py
 ===================

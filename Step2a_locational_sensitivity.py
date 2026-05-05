@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 '''
 Compute voltage sensitivities deltaV/deltaP and deltaV/deltaQ 
         and angle sensitivities deltaTheta/deltaP  for generator units

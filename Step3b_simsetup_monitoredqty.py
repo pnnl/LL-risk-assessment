@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Step before starting simulation - shortlisting which channels to log during simulation
 Value thresholds can be edited

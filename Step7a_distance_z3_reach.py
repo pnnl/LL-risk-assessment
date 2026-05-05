@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Step7_zone3_impedance.py
 =========================

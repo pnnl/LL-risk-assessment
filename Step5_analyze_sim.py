@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 17 22:48:05 2026
-
-@author: bisw757
-"""
-
 """
 Step5_analyzesim.py
 ====================

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Modify existing HV bus load to a LEL load 
 connected to a MV bus 
