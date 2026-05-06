@@ -277,8 +277,10 @@ Please report bugs, unexpected behaviour, or suggestions to **shuchismita.biswas
 ## Known limitations 
 Simulation script fails if no load present at bus selected to be LDDL oscillation source in the base case. 
 
+Number of oscillation cycles to run hard coded as 8 in Step 4.
+
 LDDL MV bus number must be specified if the HV bus number has seven digits. 
 
 Visualization improvement opportunities in the HTML dashboard.
 
-Step-down transformer rating hard coded in Step 3a. 
+Number of step-down transformers hard coded in Step 3a. Can be edited by users.
