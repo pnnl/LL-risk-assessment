@@ -1,10 +1,13 @@
 # RATLLE — Risk Assessment Tool for Large Load Induced Events
 
-A Python-based script suite for evaluating bulk power system reliability risk from oscillations introduced by large dynamic digital loads (LDDLs), using PSS/E as the simulation engine. Tested with PSS/E v35. Revised - 3/23/2026.
+A Python-based script suite for evaluating bulk power system reliability risk from oscillations introduced by large dynamic digital loads (LDDLs), using PSS/E as the simulation engine. Tested with PSS/E v35 and WECC planning cases in v34. Revised - 5/6/2026.
 
 The risk assessment script suite is divided into three modules, designed for pre-screening vulnerable locations, running time-series simulations, and analyzing simulation outputs (Figure 1). The scripts are written in a simplified modular function-style in Python, so that they can be easily understood and modified to suit a utility’s needs.
 
 > \*\*To cite this work:\*\* Biswas, S., Varghese, A. C., Chatterjee, K., Nekkalapu, S., Ross, B., and Follum, J. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." \*Authorea Preprints\* (2025). \[https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943](https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943)
+
+<img width="2084" height="940" alt="image" src="https://github.com/user-attachments/assets/a6c3db39-62a6-41d4-b4f7-53e695eac9c2" />
+Figure 1. Script architecture
 
 ## Script architecture
 
@@ -51,7 +54,7 @@ Root/
 ├── modal\_analysis\_config.csv       ← Configuration for Steps 2b and 2c
 ├── simulation\_config.csv           ← Configuration for Steps 3a through 8
 │
-├── PSSE\_Cases/                     ← Place your .sav, .dyr, and .raw files here
+├── PSSE\_Cases/                     ← Place your .sav, .dyr, and .raw, .idv files here
 │
 ├── Processing/                     ← Intermediate outputs 
 │
@@ -236,7 +239,7 @@ python Step7a\_distance\_z3\_reach --line 5001-5003-1     # direct
 
 For a selected line, computes the Zone 3 mho relay reach (if not already present in PSSE model) and plots the apparent impedance trajectory from the simulation against the Zone 3 boundary. If RATE\_B (or any other branch parameter) is missing from the case data, the script prompts you to enter it manually.
 
-## Reach setting philosophy is simple - zone 3 reach is set in a way that the relay doesn't trip for 150% of rate B flow if voltage falls below 0.85 p.u.
+Reach setting philosophy is simple - zone 3 reach is set in a way that the relay doesn't trip for 150% of rate B flow if voltage falls below 0.85 p.u.
 
 ### Step 7b — RAS trigger check
 
@@ -271,3 +274,7 @@ The scripts have been tested with the following publicly available PSS/E cases:
 
 Please report bugs, unexpected behaviour, or suggestions to **shuchismita.biswas@pnnl.gov**.
 
+## Known limitations 
+Simulation script fails if no load present at bus selected to be LDDL oscillation source in the base case. 
+LDDL MV bus number must be specified if the HV bus number has seven digits. 
+Visualization improvement opportunities in the HTML dashboard.
