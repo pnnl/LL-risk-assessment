@@ -4,7 +4,11 @@ A Python-based script suite for evaluating bulk power system reliability risk fr
 
 The risk assessment script suite is divided into three modules, designed for pre-screening vulnerable locations, running time-series simulations, and analyzing simulation outputs (Figure 1). The scripts are written in a simplified modular function-style in Python, so that they can be easily understood and modified to suit a utility’s needs.
 
-> \*\*To cite this work:\*\* Biswas, S., Varghese, A. C., Chatterjee, K., Nekkalapu, S., Ross, B., and Follum, J. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." \*Authorea Preprints\* (2025). \[https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943](https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943)
+> \*\*To cite this work:\*\*
+> 
+> Biswas, Shuchismita, Antos Varghese, Kaustav Chatterjee, Brett Ross, and Jim Follum. "pnnl/LL-risk-assessment (33525-E)." US Department of Energy (DOE) Software (2026): 68.
+> 
+> Biswas, S., Varghese, A. C., Chatterjee, K., Nekkalapu, S., Ross, B., and Follum, J. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." \*Authorea Preprints\* (2025). \[https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943](https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943)
 
 <img width="2084" height="940" alt="image" src="https://github.com/user-attachments/assets/a6c3db39-62a6-41d4-b4f7-53e695eac9c2" />
 Figure 1. Script architecture
