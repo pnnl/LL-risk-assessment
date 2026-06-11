@@ -15,7 +15,8 @@ The risk assessment script suite is divided into three modules, designed for pre
 > 
 > Biswas, S., Varghese, A. C., Chatterjee, K., Nekkalapu, S., Ross, B., and Follum, J. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." \*Authorea Preprints\* (2025). \[https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943](https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943)
 
-<img width="2084" height="940" alt="image" src="https://github.com/user-attachments/assets/a6c3db39-62a6-41d4-b4f7-53e695eac9c2" />
+<img width="1691" height="265" alt="image" src="https://github.com/user-attachments/assets/686e8bc1-47d6-4427-87ac-6084ca822d10" />
+
 Figure 1. Script architecture
 
 ## Script architecture
@@ -236,6 +237,9 @@ python Step6_metrics_visualization.py
 ```
 
 Generates a self-contained HTML dashboard (`results/risk_visualization_<run\_tag>.html`) from the metrics produced by Step 5. The dashboard includes summary risk statistics and time-series plots for the worst elements in each category. Users can interactively change violation thresholds.
+**Example results**
+<img width="2091" height="1092" alt="image" src="https://github.com/user-attachments/assets/313b6253-2f9e-426a-99a3-8373e221a8ab" />
+
 
 \---
 
