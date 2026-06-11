@@ -2,6 +2,11 @@
 
 A Python-based script suite for evaluating bulk power system reliability risk from oscillations introduced by large dynamic digital loads (LDDLs), using PSS/E as the simulation engine. Tested with PSS/E v35 and WECC planning cases in v34. Revised - 5/6/2026.
 
+
+<img width="1727" height="1010" alt="image" src="https://github.com/user-attachments/assets/dc0eedcd-5db3-43f1-9d35-1b673080c65e" />
+
+
+
 The risk assessment script suite is divided into three modules, designed for pre-screening vulnerable locations, running time-series simulations, and analyzing simulation outputs (Figure 1). The scripts are written in a simplified modular function-style in Python, so that they can be easily understood and modified to suit a utility’s needs.
 
 > \*\*To cite this work:\*\*
