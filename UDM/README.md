@@ -62,13 +62,13 @@ The UDM supports three oscillatory load profiles, parametrized as shown below.
 
 **Figure 2** below compares the active power response for different load type representations (constant Z, I, P) under a square wave oscillation.
 
-<img src="figures/LO_Constant_Z_I_P.png" width="700" alt="Comparison of load type representations for square wave oscillation in active power"/>
+<img src="figures/LO_Constant_Z_I_P.png" width="500" alt="Comparison of load type representations for square wave oscillation in active power"/>
 
 *Figure 2: Comparison of different load type representations for square wave oscillation in active power.*
 
 **Figure 3** shows a zoomed-in view of Figure 2 for clarity.
 
-<img src="figures/LO_Constant_Z_I_P_zoomed.png" width="700" alt="Zoomed-in view of load type comparison"/>
+<img src="figures/LO_Constant_Z_I_P_zoomed.png" width="500" alt="Zoomed-in view of load type comparison"/>
 
 *Figure 3: Zoomed-in representation of Figure 2.*
 
@@ -76,7 +76,7 @@ The UDM supports three oscillatory load profiles, parametrized as shown below.
 
 ## Usage Flowchart
 
-<img src="figures/LO_UDM_Flowchart.png" width="500" alt="Flowchart of UDM usage"/>
+<img src="figures/LO_UDM_Flowchart.png" width="700" alt="Flowchart of UDM usage"/>
 
 *Figure 4: Flowchart of the UDM usage.*
 
