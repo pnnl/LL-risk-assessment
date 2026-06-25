@@ -1,0 +1,9 @@
+1401 'USRLOD', 'OS', 'LINJBL', 12 1 4 8 0 5 0 
+      1 1 2 0
+	  3 0.5 0.5 0.25 1 8 7 3 /
+	
+// parameters corresponding to line 2 -  Flag1 Flag2 Flag3 Flag4
+// parameters corresponding to line 3 -  X D D_Fast Freq Fast_Freq NC Amp Amp1 
+
+
+
