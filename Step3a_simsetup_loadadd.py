@@ -39,7 +39,7 @@ def edit_dyr(dyr_filename, lddl_bus, base_load_id):
     # Overwrite the same file
     dyr_file.write_text("\n".join(lines) + "\n")
 
-def add_ll_at_bus(sav_case, dyr_case, bus_number, load_id, csvpath, dyr_file = 'CMLD_Load_.dyr'):
+def add_ll_at_bus(sav_case, dyr_case, bus_number, load_id, csvpath, dyr_file = 'CMLD_Load_.dyr',osc_amp = 0):
     
     
     psspy.psseinit(200000) 
@@ -101,7 +101,7 @@ def add_ll_at_bus(sav_case, dyr_case, bus_number, load_id, csvpath, dyr_file = '
     x_pu = [0.08] * n_transformers
     
     
-    xfmr_base = [abs(load_rating)*1.25/n_transformers] * n_transformers ## Transformer MVA is taken to be 1.25 * load MVA
+    xfmr_base = [(abs(load_rating)+osc_amp)*1.25/n_transformers] * n_transformers ## Transformer MVA is taken to be 1.25 * load MVA
     
 
     
@@ -195,4 +195,5 @@ if __name__ == '__main__':
     
     print(load_id2)
     print(bus_number)
-    add_ll_at_bus(str(sav_case), str(dyr_case), bus_number, load_id2,  data_dir, 'CMLD_Load_.dyr')
+    osc_amp = config_params[config_params.Variable=='oscillation_amplitude']['Value'].iloc[0]
+    add_ll_at_bus(str(sav_case), str(dyr_case), bus_number, load_id2,  data_dir, 'CMLD_Load_.dyr',float(osc_amp))
