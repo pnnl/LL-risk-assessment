@@ -40,9 +40,45 @@ Three versions of the model are available for use in **PSS/E v34, v35, and v36**
 
 ## Waveform Modes
 
-- **(Flag3 = 0)** Monoperiodic square wave
-- **(Flag3 = 1)** Bi-periodic pattern
-- **(Flag3 = 2)** Triangular pattern
+The UDM supports three oscillatory load profiles, parametrized as shown below.
+
+**Figure 1(a) — Monoperiodic square wave (Flag3 = 0)**
+
+<img src="figures/LO_monoperiodic.png" width="600" alt="Monoperiodic square wave waveform"/>
+
+**Figure 1(b) — Bi-periodic pattern (Flag3 = 1)**
+
+<img src="figures/LO_biperiodic.png" width="600" alt="Bi-periodic waveform pattern"/>
+
+**Figure 1(c) — Triangular pattern (Flag3 = 2)**
+
+<img src="figures/LO_triangular.png" width="600" alt="Triangular waveform pattern"/>
+
+*Figure 1: Parametrized representation of different oscillatory load profiles in the load modulation UDM.*
+
+---
+
+## Example Model Response
+
+**Figure 2** below compares the active power response for different load type representations (constant Z, I, P) under a square wave oscillation.
+
+<img src="figures/LO_Constant_Z_I_P.png" width="700" alt="Comparison of load type representations for square wave oscillation in active power"/>
+
+*Figure 2: Comparison of different load type representations for square wave oscillation in active power.*
+
+**Figure 3** shows a zoomed-in view of Figure 2 for clarity.
+
+<img src="figures/LO_Constant_Z_I_P_zoomed.png" width="700" alt="Zoomed-in view of load type comparison"/>
+
+*Figure 3: Zoomed-in representation of Figure 2.*
+
+---
+
+## Usage Flowchart
+
+<img src="figures/LO_UDM_Flowchart.png" width="500" alt="Flowchart of UDM usage"/>
+
+*Figure 4: Flowchart of the UDM usage.*
 
 ---
 
