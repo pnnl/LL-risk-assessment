@@ -15,7 +15,8 @@ The risk assessment script suite is divided into three modules, designed for pre
 > 
 > Biswas, Shuchismita, Antos Varghese, Kaustav Chatterjee, Brett Ross, and Jim Follum. "pnnl/LL-risk-assessment (33525-E)." US Department of Energy (DOE) Software (2026): 68.
 > 
-> Biswas, S., Varghese, A. C., Chatterjee, K., Nekkalapu, S., Ross, B., and Follum, J. "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations." \*Authorea Preprints\* (2025). \[https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943](https://www.techrxiv.org/doi/full/10.36227/techrxiv.175623878.87007943)
+> S. Biswas, A. C. Varghese, K. Chatterjee, S. Nekkalapu, B. Ross and J. Follum, "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations," 2026 IEEE/PES Transmission and Distribution Conference and Exposition (T&D), Chicago, IL, USA, 2026, pp. 1-5, doi: 10.1109/TD48022.2026.11562229.
+>
 
 <img width="1691" height="265" alt="image" src="https://github.com/user-attachments/assets/686e8bc1-47d6-4427-87ac-6084ca822d10" />
 
