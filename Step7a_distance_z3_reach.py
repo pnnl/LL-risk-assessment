@@ -463,7 +463,11 @@ def plot_impedance(t: np.ndarray, R_traj: np.ndarray, X_traj: np.ndarray,
     ax2.axhline(z3, color='#e8623a', lw=1.5, ls='--',
                 label=f'Z3 reach = {z3:.4f} pu')
     # Mark when trajectory enters the zone
-    inside = Z_mag < z3
+    cx = 0.5 * z3 * math.cos(math.radians(phi))
+    cy = 0.5 * z3 * math.sin(math.radians(phi))
+    r_mho = 0.5 * z3
+    d = np.sqrt((R_traj - cx)**2 + (X_traj - cy)**2)
+    inside = d < r_mho
     if inside.any():
         first_in = t[inside][0]
         ax2.axvline(first_in, color='#e89030', lw=1.2, ls=':',
