@@ -17,6 +17,7 @@ The risk assessment script suite is divided into three modules, designed for pre
 > 
 > S. Biswas, A. C. Varghese, K. Chatterjee, S. Nekkalapu, B. Ross and J. Follum, "Evaluating the Risk to Bulk Power System Reliability from Large Load Induced Oscillations," 2026 IEEE/PES Transmission and Distribution Conference and Exposition (T&D), Chicago, IL, USA, 2026, pp. 1-5, doi: 10.1109/TD48022.2026.11562229.
 >
+> S. Biswas, S. Nekkalapu, A. C. Varghese, B. A. Ross, J. D. Follum, K. Chatterjee, and R. Chakraborty, "A Methodology to Evaluate the Grid Reliability Impact of Oscillations Induced by Large Loads", PNNL-39459. Pacific Northwest National Laboratory (PNNL), Richland, WA (United States), 2026.
 
 <img width="1691" height="265" alt="image" src="https://github.com/user-attachments/assets/686e8bc1-47d6-4427-87ac-6084ca822d10" />
 
