@@ -13,7 +13,7 @@ from pathlib import Path
 import os, sys, csv, time
 import pandas as pd
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
+from matplotlib import colormaps
 import numpy as np
 import pandas as pd
 
@@ -200,7 +200,7 @@ def plot_sensitivities(df, output_path, minkV, maxkV, area_filter=None):
     """
     kv_levels  = sorted(df['kV'].unique())
     n_levels   = len(kv_levels)
-    palette    = cm.get_cmap('tab10', n_levels)
+    palette    = colormaps['tab10'].resampled(n_levels)
     kv_to_color = {kv: palette(i) for i, kv in enumerate(kv_levels)}
 
     fig, ax = plt.subplots(figsize=(9, 7))
@@ -358,7 +358,7 @@ def plot_angle_sensitivities(df, output_path, min_mw, area_filter=None):
     """
     kv_levels   = sorted(df['kV'].unique())
     n_levels    = len(kv_levels)
-    palette     = cm.get_cmap('tab10', n_levels)
+    palette     = colormaps['tab10'].resampled(n_levels)
     kv_to_color = {kv: palette(i) for i, kv in enumerate(kv_levels)}
 
     fig, ax = plt.subplots(figsize=(9, 7))
