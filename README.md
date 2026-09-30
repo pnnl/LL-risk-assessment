@@ -4,6 +4,7 @@
 
 A Python-based script suite for evaluating bulk power system reliability risk from oscillations introduced by large dynamic digital loads (LDDLs), using PSS/E as the simulation engine. Tested with PSS/E v35 and WECC planning cases in v34. Revised - 5/6/2026.
 
+<img width="877" height="449" alt="image" src="https://github.com/user-attachments/assets/023b4368-77de-49a2-9869-747e155850dc" />
 
 <img width="1727" height="1010" alt="image" src="https://github.com/user-attachments/assets/dc0eedcd-5db3-43f1-9d35-1b673080c65e" />
 
