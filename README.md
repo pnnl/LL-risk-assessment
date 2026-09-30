@@ -1,6 +1,7 @@
 # RATLLE — Risk Assessment Tool for Large Load Induced Events
 
 **Update - 9/29/2026 - Dashboard added for visualizing results from RATLLE pre-screening module. Computation of load sharing metrics added.**
+
 **Update - 6/25/2026 - PSS/E UDMs for injecting forced oscillations available now in the UDM folder. Can be used outside the RATLLE framework.**
 
 A Python-based script suite for evaluating bulk power system reliability risk from oscillations introduced by large dynamic digital loads (LDDLs), using PSS/E as the simulation engine. Tested with PSS/E v35 and WECC planning cases in v34. Revised - 9/29/2026.
