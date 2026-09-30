@@ -65,7 +65,6 @@ Planners might consider the risk assessment question from two perspectives:
 * Thresholds can be set by an utility according to their risk budget.
 * Users can also visualize impedance trajectories and RAS activation likelihood for selected elements without having to explicitly configure them in simulation models.
 
-\---
 
 ## Folder structure
 
@@ -97,8 +96,6 @@ Root/
 ├── Step7a_distance_z3_reach.py
 └── Step7b_RAS_check.py
 ```
-
-\---
 
 ## First-time setup
 
@@ -138,7 +135,7 @@ Used by Steps 2b, 2c, and 2d. One row per bus to analyze.
 |-|-|-|
 |`case_name`|PSS/E .sav file name (without extension)|`WECC_2031_HW`|
 |`dyr_name`|Dynamics .dyr file name (without extension)|`WECC_2031_HW_dyn`|
-|`bus_number`|Bus where the load impulse is injected|`5003`|
+|`bus_number`|Bus where the load impulse is injected/LDDL bus for UIF screening|`5003`|
 |`load_step_MW`|Impulse magnitude in MW|`50`|
 
 ### `simulation_config.csv`
@@ -154,11 +151,8 @@ Used by Steps 3a through 8. One row per simulation scenario.
 |`oscillation_shape`|Waveform type: `square`, `biperiodic`|`square`|
 |`oscillation_frequency`|Oscillation frequency in Hz|`0.4`|
 |`oscillation_amplitude`|Peak oscillation amplitude in MW|`100`|
-|'oscillation_frequency_fast'|Faster frequency (Hz) for biperiodic load variation|`4`|
+|`oscillation_frequency_fast`|Faster frequency (Hz) for biperiodic load variation|`4`|
 
-
-
-\---
 
 ## Running the scripts
 
@@ -172,8 +166,6 @@ python Step1_extract_case_info.py
 
 Reads the PSS/E case and writes bus, branch, generator, load, and area summary CSVs to `Processing/`. Run this first for any new case.
 
-\---
-
 ### Step 2a — Voltage and angle sensitivity screening
 
 ```bash
@@ -181,8 +173,6 @@ python Step2a_locational_sensitivity.py
 ```
 
 Applies small fictitious injections at each bus in the specified voltage range and computes dV/dP, dV/dQ, and dθ/dP. Use this to identify vulnerable locations in the network.
-
-\---
 
 ### Step 2b — Load impulse simulation
 
@@ -192,8 +182,6 @@ python Step2b_load_impulse.py
 
 Applies a short load impulse at the bus specified in `modal_analysis_config.csv` and records the ringdown response.
 
-\---
-
 ### Step 2c — Mode estimation
 
 ```bash
@@ -202,11 +190,30 @@ python Step2c_mode_estimates.py
 
 Analyses the ringdown signal from Step 2b to identify excitable oscillatory modes. If a prominent mode is found near a particular frequency, that frequency is a priority candidate for detailed simulation in Steps 3–8.
 
-### Step 2d — Load sharing metrics
+### Step 2d — Unit Interaction Factor and load sharing screening
 
-Compute the Unit Interaction Factor (UIF) and a current-sharing (load sharing) metric for synchronous units near the selected location, using fault-current contributions from the PSS/E dynamics engine (no fault analysis license used).
+```
+python Step2d_UIF.py
+```
 
-\---
+Identifies which synchronous generators are most likely to pick up active power fluctuations from an LDDL at the bus in `modal_analysis_config.csv`. For each candidate unit *i*:
+
+- **Load sharing metric** = 1 − S<sub>sc−i</sub> / S<sub>sc</sub>
+- **UIF** = (S<sub>LDDL</sub> / MBASE<sub>i</sub>) × (1 − S<sub>sc−i</sub> / S<sub>sc</sub>)²
+
+where S<sub>sc</sub> is the short-circuit MVA at the LDDL bus with all units in service, S<sub>sc−i</sub> is the same with unit *i* out of service, and S<sub>LDDL</sub> = 100 MVA. Units with UIF > 0.1 (the classical subsynchronous interaction screening threshold) are flagged. Reference: R. Arritt et al., "Managing Oscillating Load Impacts from Data Centers on Synchronous Machines," EPRI, 2026.
+
+S<sub>sc</sub> is measured by applying a bus fault in a dynamic simulation and computing the Thevenin impedance from the subtransient voltage dip, so no PSS/E fault analysis license is used. To limit run time on large systems, units are ranked by electrical distance from the LDDL bus and screened in rings of 10, stopping after two consecutive rings with no flagged units. Only in-service synchronous units above 10 MW are screened.
+
+Output: `Processing/UIF_<bus>.csv`, sorted by UIF.
+
+Outputs of the screening module can be visually inspected through interactive scatter plots and contour maps in `RATLLE_screening_dashboard.html`. Outputs of Step 2a from the `Processing` folder - `voltage_sensitivity.csv` and `angle_sencitivity.csv` must be uploaded. Uploading bus geographic coordinates (example: `wecc240_coordinates.csv`) will let contour maps be rendered. 
+
+<img width="610" height="452" alt="image" src="https://github.com/user-attachments/assets/fcca6430-ad2f-4e71-a2bb-d9a928e89b84" />
+
+<img width="608" height="368" alt="image" src="https://github.com/user-attachments/assets/f58acaae-c46e-4b5b-835c-88e5840e06f2" />
+
+Coming soon: visualization of the load sharing metrics.
 
 ### Step 3a — Simulation setup: add LDDL model
 
@@ -216,8 +223,6 @@ python Step3a_simsetup_loadadd.py
 
 Modifies the PSS/E case to represent the LDDL. Moves the existing load to an MV bus behind a step-down transformer, replaces its dynamic model with a CMLD model (NERC LMWG data center parameters), and adds a separate oscillation injection block. Outputs `LLmod.sav`, `LLmod.snp`, and a modified `.dyr` file.
 
-\---
-
 ### Step 3b — Simulation setup: select monitored quantities
 
 ```bash
@@ -226,8 +231,6 @@ python Step3b_simsetup_monitoredqty.py
 
 Uses the case summary from Step 1 to compile the list of buses, generators, loads, and lines to be logged during simulation. Outputs four CSVs to `Processing/`. Adjust selection criteria in the script if the default channel count is too large for your system.
 
-\---
-
 ### Step 4 — Run simulation
 
 ```bash
@@ -235,8 +238,6 @@ python Step4_runsim.py
 ```
 
 Runs the PSS/E dynamic simulation with the oscillation waveform defined in `simulation_config.csv`. Outputs `results/<bus>_sim.out` and `results/<bus>_sim.csv`. Simulation outputs are tagged with a run identifier of the form `bus<N>_<freq>Hz_<amp>MW` (e.g. `bus5003_0.4Hz_100MW`) so multiple scenarios can coexist in the `results/` folder.
-
-\---
 
 ### Step 5 — Analyse simulation results
 
@@ -247,8 +248,6 @@ python Step5_analyze_sim.py
 Reads the simulation CSV and computes swing amplitude, envelope, and thermal loading metrics for generators, lines, buses, and loads. Flags elements that exceed configurable risk thresholds and writes summary and detail violation reports.
 To adjust the risk thresholds, edit the `RISK_THRESHOLDS` dictionary near the top of the script.
 
-\---
-
 ### Step 6 — Interactive risk dashboard
 
 ```bash
@@ -258,9 +257,6 @@ python Step6_metrics_visualization.py
 Generates a self-contained HTML dashboard (`results/risk_visualization_<run\_tag>.html`) from the metrics produced by Step 5. The dashboard includes summary risk statistics and time-series plots for the worst elements in each category. Users can interactively change violation thresholds.
 **Example results**
 <img width="2091" height="1092" alt="image" src="https://github.com/user-attachments/assets/313b6253-2f9e-426a-99a3-8373e221a8ab" />
-
-
-\---
 
 ### Step 7a — Zone 3 distance relay check
 
@@ -290,8 +286,6 @@ Supported signals:
 |Bus|Voltage magnitude (pu)|
 |Line|Active power P (MW), Reactive power Q (MVar), Angle difference Δθ from–to (degrees)|
 
-\---
-
 ## Test cases
 
 The scripts have been tested with the following publicly available PSS/E cases:
@@ -299,8 +293,6 @@ The scripts have been tested with the following publicly available PSS/E cases:
 |Case|Source|Default scenario|
 |-|-|-|
 |WECC 240-bus|[NREL Test Case Repository](https://www.nrel.gov/grid/test-case-repository)|1.2 Hz oscillation from bus 6508|
-
-\---
 
 ## Reporting issues
 
