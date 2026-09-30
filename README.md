@@ -50,7 +50,7 @@ Planners might consider the risk assessment question from two perspectives:
 *Step 3: Identify generators likely to pick up LDDL power fluctuations*
 
 * Compute Unit Interaction Factor (UIF) and a current gain based load sharing metric for specified load locations.
-* High values indicate generators that pick up a high share of active power fluctuations induced by load cycling. Computations are based on fault current contributions. 
+* High values indicate generators that pick up a high share of active power fluctuations induced by load cycling. Computations are based on fault current contributions. Conclusions are valid for oscillations with frequency above the electromechanical range, and where resonance with local modes, control modes, or network impedance is absent.
 
 **Module 2: Simulation**
 
