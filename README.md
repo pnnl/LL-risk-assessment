@@ -292,7 +292,7 @@ The scripts have been tested with the following publicly available PSS/E cases:
 
 |Case|Source|Default scenario|
 |-|-|-|
-|WECC 240-bus|[NREL Test Case Repository](https://www.nrel.gov/grid/test-case-repository)|1.2 Hz oscillation from bus 6508|
+|WECC 240-bus|[NREL Test Case Repository](https://www.nlr.gov/grid/test-case-repository)|1.2 Hz oscillation from bus 6508|
 
 ## Reporting issues
 
