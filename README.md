@@ -47,6 +47,11 @@ Planners might consider the risk assessment question from two perspectives:
 * Simulate a load impulse at user selected location.
 * Analyze ringdown response using an automated FFT+VARPRO pipeline to identify risky mode frequencies excitable from the selected location.
 
+* Step 3: Identify generators likely to pick up LDDL power fluctuations*
+
+* Compute Unit Interaction Factor (UIF) and a current gain based load sharing metric for specified load locations.
+* High values indicate generators that pick up a high share of active power fluctuations induced by load cycling. Computations are based on fault current contributions. 
+
 **Module 2: Simulation**
 
 * Modify existing HV load to represent a data-center load with an oscillation injection block.
@@ -70,7 +75,7 @@ Root/
 ├── psse_config.py                  ← Edit once: set your PSS/E install path and version
 │
 ├── Pre_Screening_config.csv        ← Configuration for Steps 1, 2a, 2b, 2c
-├── modal_analysis_config.csv       ← Configuration for Steps 2b and 2c
+├── modal_analysis_config.csv       ← Configuration for Steps 2b, 2c, 2d
 ├── simulation_config.csv           ← Configuration for Steps 3a through 8
 │
 ├── PSSE_Cases/                     ← Place your .sav, .dyr, and .raw, .idv files here
@@ -127,7 +132,7 @@ Used by Steps 1, 2a, 2b, and 2c. One row per case.
 
 ### `modal_analysis_config.csv`
 
-Used by Steps 2b and 2c. One row per bus to analyse.
+Used by Steps 2b, 2c, and 2d. One row per bus to analyze.
 
 |Column|Description|Example|
 |-|-|-|
@@ -196,6 +201,10 @@ python Step2c_mode_estimates.py
 ```
 
 Analyses the ringdown signal from Step 2b to identify excitable oscillatory modes. If a prominent mode is found near a particular frequency, that frequency is a priority candidate for detailed simulation in Steps 3–8.
+
+### Step 2d — Load sharing metrics
+
+Compute the Unit Interaction Factor (UIF) and a current-sharing (load sharing) metric for synchronous units near the selected location, using fault-current contributions from the PSS/E dynamics engine (no fault analysis license used).
 
 \---
 
